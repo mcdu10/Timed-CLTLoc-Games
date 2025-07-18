@@ -106,7 +106,7 @@ std::vector<Region> Region::delaySuccessors() const {
                 break;
             }
         }
-        if (!flag) result.push_back(next);
+        if (!flag && !isEquivalentTo(next)) result.push_back(next);
     }
 
     return result;
@@ -143,7 +143,7 @@ std::vector<Region> Region::delayPredecessors() const {
                 break;
             }
         }
-        if (!flag) result.push_back(next);
+        if (!flag && !isEquivalentTo(next)) result.push_back(next);
     }
 
     return result;

@@ -22,10 +22,13 @@ int main() {
     std::cout << "=== Regione iniziale ===\n";
     r.print();
 
+    // rappresentante di r
+    std::cout << "=== Representative r ===" << std::endl;
     for (auto coppia : r.getRepresentativeValuation()) {
         std::cout << "clock " << coppia.first << " valuation " << coppia.second << "\n";
     };
 
+    // successori temporali
     std::cout << "\n=== Delay Successors ===\n";
     auto delaySucc = r.delaySuccessors();
     for (size_t i = 0; i < delaySucc.size(); ++i) {
@@ -37,8 +40,19 @@ int main() {
         std::cout << "\n";
     }
 
+    // per i predecessori temporali serve una regione con tutti i clock
+    // diversi da zero
+    valuation["y"] = 0.5;
+    Region r2(valuation, location, maxConstant);
+    std::cout << "=== Regione con clock diversi da zero ===\n";
+    r.print();
+    std::cout << "\n=== Representative r2 ===\n";
+    for (auto coppia : r2.getRepresentativeValuation()) {
+        std::cout << "clock " << coppia.first << " valuation " << coppia.second << "\n";
+    };
+
     std::cout << "\n=== Delay Predecessors ===\n";
-    auto delayPred = r.delayPredecessors();
+    auto delayPred = r2.delayPredecessors();
     for (size_t i = 0; i < delayPred.size(); ++i) {
         std::cout << "Predecessore #" << i+1 << ":\n";
         delayPred[i].print();
@@ -48,6 +62,8 @@ int main() {
         std::cout << "\n";
     }
 
+    // per i predecessori/successori discreti servono delle transizioni:
+    // una che parta dalla location della regione iniziale e una che arrivi li
     std::string location1 = "loc1";
     std::string action = "a";
     Guard g = {{"x", Comparator::LE, 2.5}}; // x <= 2.5
