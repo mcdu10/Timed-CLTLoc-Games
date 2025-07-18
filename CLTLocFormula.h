@@ -10,9 +10,8 @@
 #include <variant>
 #include <vector>
 #include <memory>
+#include "Guard.h"
 #include <map>
-
-enum class Comparator { LE, LT, GE, GT, EQ, NEQ };
 
 struct ClockTerm {
     bool isClock;

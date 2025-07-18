@@ -12,6 +12,7 @@ bool ClockConstraint::evaluate(double value) const {
     case Comparator::GE: return value >= constant;
     case Comparator::GT: return value > constant;
     case Comparator::EQ: return std::abs(value - constant) < 1e-9;
+    case Comparator::NEQ: return std::abs(value - constant) > 1e-9;
     }
     return false;
 }

@@ -9,7 +9,7 @@
 #include <sstream>
 #include <map>
 
-enum class Comparator { LE, LT, GE, GT, EQ };
+enum class Comparator { LE, LT, GE, GT, EQ, NEQ };
 
 struct ClockConstraint {
     std::string clock;

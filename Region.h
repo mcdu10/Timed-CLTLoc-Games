@@ -39,10 +39,10 @@ public:
     std::vector<Region> delayPredecessors() const;
 
     // Restituisce le regioni dalle quali si può raggiungere la corrente tramite le transizioni (in input)
-    std::vector<Region> Region::discretePredecessors(const std::vector<Transition>& transitions) const;
+    std::vector<Region> discretePredecessors(const std::vector<Transition>& transitions) const;
 
     // Restituisce tutte le regioni dalle quali si può raggiungere la corrente (facendo passare il tempo o con transizioni)
-    std::vector<Region> Region::predecessor(const std::vector<Transition>& transitions) const;
+    std::vector<Region> predecessor(const std::vector<Transition>& transitions) const;
 
 
     // Stampa la regione
