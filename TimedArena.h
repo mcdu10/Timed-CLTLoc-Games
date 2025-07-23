@@ -13,16 +13,13 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <variant>
 #include <memory>
 #include <iostream>
 
 namespace TimedArena {
 
     enum class Player { Controller, Environment };
-
-    struct action {
-        std::string act;
-    };
 
     struct Clock {
         std::string name;
@@ -36,25 +33,33 @@ namespace TimedArena {
         Region region;
         Player player ;
 
+        State(const Region& region, Player player);
+
         void print() const {
             if (player ==  Player::Controller)
              std::cout << "Controller " << std::endl;
             else std::cout << "Environment " << std::endl;
-            std::cout << "location: " << location;
+            std::cout << "location: " << region.location;
             region.print();
         }
+
+    };
+
+    struct TransitionRelation {
+        State initial;
+        std::variant<Act, double> transition;
+        State ending;
+
+        TransitionRelation(const State& state, double second, const State& ending);
     };
 
     class TAr {
     public:
-        std::vector<action> actions;
+        std::vector<Act> actions;
         std::vector<std::string> locations;
         std::string initialLocation;
         std::vector<Clock> clocks;
-        std::vector<double> initialValuation;
         std::vector<Transition> transitions;
-
-        void buildRegionTransitionSystem();
 
     };
 

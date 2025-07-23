@@ -6,6 +6,8 @@
 #include <iostream>
 #include <cmath>
 #include <algorithm>
+#include <variant>
+#include <_strings.h>
 
 // Costruttore
 Region::Region(const std::map<std::string, double>& valuation, const std::string& loc, int maxConst)
@@ -58,6 +60,13 @@ bool Region::isEquivalentTo(const Region& other) const {
     return true;
 }
 
+bool Region::containsRegionEquivalentTo(const std::vector<Region>& vec, const Region& target) {
+    for (const auto& r : vec) {
+        if (r.isEquivalentTo(target)) return true;
+    }
+    return false;
+}
+
 
 std::map<std::string, double> Region::getRepresentativeValuation()const{
     std::map<std::string, double> values;
@@ -82,71 +91,57 @@ std::map<std::string, double> Region::getRepresentativeValuation()const{
 };
 
 
-std::vector<Region> Region::delaySuccessors() const {
-    std::vector<Region> result;
-    std::map<std::string, double> sampleVal = getRepresentativeValuation();
+Region Region::delaySuccessor() const {
+    std::vector<std::vector<std::string>> fo;
+    std::set<std::string> zero;
 
-    // incrementa la valutazione dei clock di 0.01
-    double epsilon = 0.01;
-    for (int i = 1; i <= 100; ++i) {
-        double t = i * epsilon;
-        std::map<std::string, double> advanced;
-
-        for (const auto& [clk, val] : sampleVal) {
-            advanced[clk] = val + t;
-        }
-
-        Region next(advanced, location, maxConstant);
-
-        // evita duplicati
-        bool flag = false;
-        for (auto it = result.begin(); it != result.end(); ++it) {
-            if (next.isEquivalentTo(*it)) {
-                flag = true;
-                break;
-            }
-        }
-        if (!flag && !isEquivalentTo(next)) result.push_back(next);
+    if (!zeroFraction.empty()) {
+        fo = fractionalOrder;
+        fo.insert(fo.begin(), std::vector<std::string>(zeroFraction.begin(), zeroFraction.end()));
+        return Region(location, floorValues, zero, fo, maxConstant);
     }
 
-    return result;
+    std::vector<std::string> greater = fractionalOrder.back();
+    zero.insert(greater.begin(), greater.end());
+    fo = std::vector<std::vector<std::string>>(fractionalOrder.begin(), fractionalOrder.end()-1);
+
+    std::map<std::string, int> floor = floorValues;
+    for (auto it : zero) {
+        floor[it] = floor[it] + 1;
+    }
+    return Region(location, floor, zero, fo, maxConstant);
 }
 
 
-std::vector<Region> Region::delayPredecessors() const {
-    std::vector<Region> result;
-    std::map<std::string, double> sampleVal = getRepresentativeValuation();
+Region Region::delayPredecessor() const {
 
-    double minclk = std::min_element(
-    sampleVal.begin(), sampleVal.end(),
+    std::string minclk = std::min_element(
+    floorValues.begin(), floorValues.end(),
     [](const auto& a, const auto& b) {
         return a.second < b.second;
-    })->second;
+    })->first;
 
-    // decrementa la valuazione del clock di 0.01 (controllando che non diventi negativa)
-    double epsilon = 0.01;
-    for (int i = 1; i <= 100 && minclk >= i*epsilon; ++i) {
-        double t = i * epsilon;
-        std::map<std::string, double> earlier;
-
-        for (const auto& [clk, val] : sampleVal) {
-            earlier[clk] = val - t;
-        }
-
-        Region next(earlier, location, maxConstant);
-
-        // evita duplicati
-        bool flag = false;
-        for (auto it = result.begin(); it != result.end(); ++it) {
-            if (next.isEquivalentTo(*it)) {
-                flag = true;
-                break;
-            }
-        }
-        if (!flag && !isEquivalentTo(next)) result.push_back(next);
+    if (floorValues.at(minclk) == 0 && zeroFraction.find(minclk) != zeroFraction.end()) {
+        return Region(location, floorValues, zeroFraction, fractionalOrder, maxConstant);
     }
 
-    return result;
+    std::set<std::string> zero;
+    std::vector<std::vector<std::string>> fo = fractionalOrder;
+    std::map<std::string, int> floor = floorValues;
+    if (!zeroFraction.empty()) {
+        std::vector<std::string> lower = std::vector<std::string>(zeroFraction.begin(), zeroFraction.end());
+        fo.insert(fo.end(), lower.begin(), lower.end());
+        for (auto it : zeroFraction) {
+            floor[it] = floor[it] - 1;
+        }
+        return Region(location, floor, zero, fo, maxConstant);
+    }
+
+    for (auto it : fractionalOrder.front()) {
+        zero.insert(it);
+    }
+    fo.erase(fo.begin());
+    return Region(location, floor, zero, fo, maxConstant);
 }
 
 
@@ -177,7 +172,6 @@ std::vector<Region> Region::discreteSuccessors(const std::vector<Transition>& tr
 
 std::vector<Region> Region::discretePredecessors(const std::vector<Transition>& transitions) const {
     std::vector<Region> result;
-    std::map<std::string, double> sampleVal = getRepresentativeValuation();
 
     for (const auto tr : transitions) {
         // controlla che la transizione finisca nella location corrente
@@ -185,44 +179,145 @@ std::vector<Region> Region::discretePredecessors(const std::vector<Transition>& 
 
         // controlla che i clock azzerati dalla transizione siano nulli
         // salva la valutazione dei clock azzerati nella mappa reset
-        std::map<std::string, double> reset;
         bool flag = false;
         for (const auto clk : tr.resetClocks) {
-            if (sampleVal[clk] != 0) {
+            if (floorValues.at(clk) != 0 || zeroFraction.find(clk) != zeroFraction.end() ) {
                 flag = true;
                 break;
             }
-            reset[clk] = 0;
         }
         if (flag) continue;
 
-        // crea una regione considerando solo i clock che sono stati azzerati
-        // in modo da poterli incrementare (tramite delaySuccessors)
-        // per trovare i predecessori
-        Region res(reset, location, maxConstant);
-        std::vector<Region> test = res.delaySuccessors();
-        std::map<std::string, double> val = sampleVal;
-        // tra tutte le valutazioni (incrementate con delaySuccessor) dei clock
-        // che sono stati azzerati controlla quali soddisferebbero le guardie
-        for (auto it = test.begin(); it != test.end(); ++it) {
-            reset = it->getRepresentativeValuation();
-            for (const auto clk : tr.resetClocks) {
-                val[clk] = reset[clk];
-            }
-            if (tr.isEnabled(val)) {
-                Region candidate(val, tr.sourceLocation, maxConstant);
+        std::map<std::string, int> floor = floorValues;
 
-                // evita duplicati
-                bool exists = false;
-                for (const auto& r2 : result) {
-                    if (r2.isEquivalentTo(candidate)) {
-                        exists = true;
-                        break;
+        while (std::max_element(
+                   floor.begin(), floor.end(),
+                   [](const auto& a, const auto& b) {
+                       return a.second < b.second;
+                   })->second < maxConstant) {
+
+            // Base di partenza
+            std::set<std::string> baseZero = zeroFraction;
+            std::vector<std::vector<std::string>> baseFO = fractionalOrder;
+
+            // Regione base
+            auto nuova = Region(location, floor, baseZero, baseFO, maxConstant);
+            if (!containsRegionEquivalentTo(result, nuova)) {
+                result.emplace_back(nuova);
+            }
+
+            for (const auto& clk : tr.resetClocks) {
+                std::set<std::string> zero = baseZero;
+                zero.erase(clk);
+
+                // aggiungi clk come nuovo gruppo in tutte le posizioni
+                for (size_t i = 0; i <= baseFO.size(); ++i) {
+                    auto fo = baseFO;
+                    fo.insert(fo.begin() + i, { clk });
+                    nuova = Region(location, floor, zero, fo, maxConstant);
+                    if (!containsRegionEquivalentTo(result, nuova)) {
+                        result.emplace_back(nuova);
+                    }
+                    // Per ogni altro clk1 ≠ clk
+                    for (const auto& clk1 : tr.resetClocks) {
+                        if (clk1 == clk) continue;
+                        std::set<std::string> zero2 = zero;
+                        zero2.erase(clk1);
+
+                        // Inserisce clk1 in tutte le posizioni
+                        for (size_t j = 0; j <= fo.size(); ++j) {
+                            auto fo2 = fo;
+                            fo2.insert(fo2.begin() + j, { clk1 });
+                            nuova = Region(location, floor, zero2, fo2, maxConstant);
+                            if (!containsRegionEquivalentTo(result, nuova)) {
+                                result.emplace_back(nuova);
+                            }
+                            auto floor2 = floor;
+                            while(floor2[clk1] < maxConstant) {
+                                floor2[clk1] = floor2[clk1] + 1;
+                                nuova = Region(location, floor2, zero2, fo2, maxConstant);
+                                if (!containsRegionEquivalentTo(result, nuova)) {
+                                    result.emplace_back(nuova);
+                                }
+                            }
+
+                            // Aggiunge clk1 a gruppi esistenti
+                            if (j < fo.size()) {
+                                auto fo3 = fo;
+                                fo3[j].push_back(clk1);
+                                nuova = Region(location, floor, zero2, fo3, maxConstant);
+                                if (!containsRegionEquivalentTo(result, nuova)) {
+                                    result.emplace_back(nuova);
+                                }
+                                auto floor3 = floor;
+                                while(floor3[clk1] < maxConstant) {
+                                    floor3[clk1] = floor3[clk1] + 1;
+                                    nuova = Region(location, floor3, zero2, fo3, maxConstant);
+                                    if (!containsRegionEquivalentTo(result, nuova)) {
+                                        result.emplace_back(nuova);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
-                if (!exists) {
-                    result.push_back(candidate);
+
+                // aggiungi clk a gruppi esistenti
+                for (size_t i = 0; i < baseFO.size(); ++i) {
+                    auto fo = baseFO;
+                    fo[i].push_back(clk);
+                    std::set<std::string> zero = baseZero;
+                    zero.erase(clk);
+                    nuova = Region(location, floor, zero, fo, maxConstant);
+                    if (!containsRegionEquivalentTo(result, nuova)) {
+                        result.emplace_back(nuova);
+                    }
+
+                    for (const auto& clk1 : tr.resetClocks) {
+                        if (clk1 == clk) continue;
+                        std::set<std::string> zero2 = zero;
+                        zero2.erase(clk1);
+
+                        for (size_t j = 0; j <= fo.size(); ++j) {
+                            auto fo2 = fo;
+                            fo2.insert(fo2.begin() + j, { clk1 });
+                            nuova = Region(location, floor, zero2, fo2, maxConstant);
+                            if (!containsRegionEquivalentTo(result, nuova)) {
+                                result.emplace_back(nuova);
+                            }
+                            auto floor2 = floor;
+                            while(floor2[clk1] < maxConstant) {
+                                floor2[clk1] = floor2[clk1] + 1;
+                                nuova = Region(location, floor2, zero2, fo2, maxConstant);
+                                if (!containsRegionEquivalentTo(result, nuova)) {
+                                    result.emplace_back(nuova);
+                                }
+                            }
+
+                            if (j < fo.size()) {
+                                auto fo3 = fo;
+                                fo3[j].push_back(clk1);
+                                nuova = Region(location, floor, zero2, fo3, maxConstant);
+                                if (!containsRegionEquivalentTo(result, nuova)) {
+                                    result.emplace_back(nuova);
+                                }
+                                auto floor3 = floor;
+                                while(floor3[clk1] < maxConstant) {
+                                    floor3[clk1] = floor3[clk1] + 1;
+                                    nuova = Region(location, floor3, zero2, fo3, maxConstant);
+                                    if (!containsRegionEquivalentTo(result, nuova)) {
+                                        result.emplace_back(nuova);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
+            }
+
+            // Incrementa i floor dei clock azzerati
+            for (const auto& clk : tr.resetClocks) {
+                floor[clk]++;
             }
         }
     }
@@ -230,13 +325,19 @@ std::vector<Region> Region::discretePredecessors(const std::vector<Transition>& 
     return result;
 };
 
-std::vector<Region> Region::predecessor(const std::vector<Transition>& transitions) const {
-    std::vector<Region> result = discretePredecessors(transitions);
-    result.insert(result.end(), delayPredecessors().begin(), delayPredecessors().end());
 
+std::vector<Region> Region::successor(const std::vector<Transition>& transitions) const {
+    std::vector<Region> result = discreteSuccessors(transitions);
+    result.push_back(delaySuccessor());
     return result;
 }
 
+
+std::vector<Region> Region::predecessor(const std::vector<Transition>& transitions) const {
+    std::vector<Region> result = discretePredecessors(transitions);
+    result.push_back(delayPredecessor());
+    return result;
+}
 
 
 void Region::print() const {

@@ -27,6 +27,19 @@ public:
     ClockValuation initialValuation;
     Condition winningCondition;
 
+    // Discrete transition predecessor
+    std::vector<TransitionRelation> Omega (TAr A, std::vector<State> G);
+
+    // Delay transition predecessor (controller e envoirement)
+    std::vector<TransitionRelation> Deltac (TAr A, std::vector<State> G);
+    std::vector<TransitionRelation> Deltae (TAr A, std::vector<State> G);
+
+    // Overall transition predecessor
+    std::vector<TransitionRelation> Theta (TAr A, std::vector<State> G);
+
+    // Controllable predecessor
+    std::vector<State> Pi (TAr A, std::vector<State> G);
+
     void algorithm1();
 };
 

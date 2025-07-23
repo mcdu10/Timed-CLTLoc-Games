@@ -4,8 +4,6 @@
 
 #include "TimedArena.h"
 
-void buildRegionTransitionSystem()
-{
 
-};
+
 

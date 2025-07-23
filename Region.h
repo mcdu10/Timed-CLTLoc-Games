@@ -9,6 +9,7 @@
 #include <set>
 #include <vector>
 #include <string>
+#include <variant>
 #include "Transition.h"
 
 
@@ -22,21 +23,28 @@ public:
 
     // Costruttore: crea una regione a partire da una valutazione dei clock
     Region(const std::map<std::string, double>& valuation, const std::string& loc, int maxConst);
+    Region(const std::string& loc, const std::map<std::string, int>& floor, const std::set<std::string>& zero, const std::vector<std::vector<std::string>>& fo, int max_constant);
 
     // Verifica se due regioni sono equivalenti
     bool isEquivalentTo(const Region& other) const;
+
+    // Verifica se in un vettore di regioni ce n'è una equivalente
+    static bool containsRegionEquivalentTo(const std::vector<Region>& vec, const Region& target);
 
     // Restituisce un rappresentante della regione
     std::map<std::string, double> getRepresentativeValuation() const;
 
     // Restituisce le regioni raggiungibili facendo passare il tempo
-    std::vector<Region> delaySuccessors() const;
+    Region delaySuccessor() const;
 
     // Restituisce le regioni raggiungibili tramite le transizioni (in input)
     std::vector<Region> discreteSuccessors(const std::vector<Transition>& transitions) const;
 
+    // Restituisce tutte le regioni raggiungibili
+    std::vector<Region> successor(const std::vector<Transition>& transitions) const;
+
     // Restituisce le regioni dalle quali si può raggiungere la corrente facendo passare il tempo
-    std::vector<Region> delayPredecessors() const;
+    Region delayPredecessor() const;
 
     // Restituisce le regioni dalle quali si può raggiungere la corrente tramite le transizioni (in input)
     std::vector<Region> discretePredecessors(const std::vector<Transition>& transitions) const;

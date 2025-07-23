@@ -105,5 +105,17 @@ int main() {
         std::cout << "\n";
     }
 
+    // predecessori generici
+    std::cout << "\n=== Predecessors ===\n";
+    auto predecessors = r.predecessor({t, t1});
+    for (size_t i = 0; i < predecessors.size(); ++i) {
+        std::cout << "Predecessore #" << i+1 << ":\n";
+        predecessors[i].print();
+        for (auto coppia : predecessors[i].getRepresentativeValuation()) {
+            std::cout << "clock " << coppia.first << " valuation " << coppia.second << "\n";
+        };
+        std::cout << "\n";
+    }
+
     return 0;
 }

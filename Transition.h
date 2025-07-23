@@ -9,9 +9,13 @@
 #include <string>
 #include <set>
 
+struct Act {
+    std::string action;
+};
+
 struct Transition {
     std::string sourceLocation;
-    std::string action;
+    Act action;
     Guard guard;
     std::set<std::string> resetClocks;
     std::string targetLocation;
