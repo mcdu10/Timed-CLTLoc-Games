@@ -30,37 +30,20 @@ int main() {
 
     // successori temporali
     std::cout << "\n=== Delay Successors ===\n";
-    auto delaySucc = r.delaySuccessors();
-    for (size_t i = 0; i < delaySucc.size(); ++i) {
-        std::cout << "Successore #" << i+1 << ":\n";
-        delaySucc[i].print();
-        for (auto coppia : delaySucc[i].getRepresentativeValuation()) {
-            std::cout << "clock " << coppia.first << " valuation " << coppia.second << "\n";
-        };
+    auto delaySucc = r.delaySuccessor();
+        delaySucc.print();
         std::cout << "\n";
-    }
 
     // per i predecessori temporali serve una regione con tutti i clock
     // diversi da zero
     valuation["y"] = 0.5;
     Region r2(valuation, location, maxConstant);
     std::cout << "=== Regione con clock diversi da zero ===\n";
-    r.print();
-    std::cout << "\n=== Representative r2 ===\n";
-    for (auto coppia : r2.getRepresentativeValuation()) {
-        std::cout << "clock " << coppia.first << " valuation " << coppia.second << "\n";
-    };
-
+    r2.print();
     std::cout << "\n=== Delay Predecessors ===\n";
-    auto delayPred = r2.delayPredecessors();
-    for (size_t i = 0; i < delayPred.size(); ++i) {
-        std::cout << "Predecessore #" << i+1 << ":\n";
-        delayPred[i].print();
-        for (auto coppia : delayPred[i].getRepresentativeValuation()) {
-            std::cout << "clock " << coppia.first << " valuation " << coppia.second << "\n";
-        };
+    auto delayPred = r2.delayPredecessor();
+        delayPred.print();
         std::cout << "\n";
-    }
 
     // per i predecessori/successori discreti servono delle transizioni:
     // una che parta dalla location della regione iniziale e una che arrivi li
@@ -94,8 +77,10 @@ int main() {
         std::cout << "\n";
     }
 
+    r.print();
+
     std::cout << "\n=== Discrete Predecessors ===\n";
-    auto discretePred = r.discretePredecessors({t, t1});
+    auto discretePred = r.discretePredecessors({t1, t});
     for (size_t i = 0; i < discretePred.size(); ++i) {
         std::cout << "Predecessore Discreto #" << i+1 << ":\n";
         discretePred[i].print();
@@ -105,17 +90,7 @@ int main() {
         std::cout << "\n";
     }
 
-    // predecessori generici
-    std::cout << "\n=== Predecessors ===\n";
-    auto predecessors = r.predecessor({t, t1});
-    for (size_t i = 0; i < predecessors.size(); ++i) {
-        std::cout << "Predecessore #" << i+1 << ":\n";
-        predecessors[i].print();
-        for (auto coppia : predecessors[i].getRepresentativeValuation()) {
-            std::cout << "clock " << coppia.first << " valuation " << coppia.second << "\n";
-        };
-        std::cout << "\n";
-    }
+
 
     return 0;
 }

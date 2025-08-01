@@ -46,6 +46,10 @@ Region::Region(const std::map<std::string, double>& valuation, const std::string
     }
 }
 
+Region::Region(const std::string& loc, const std::map<std::string, int>& floor, const std::set<std::string>& zero, const std::vector<std::vector<std::string>>& fo, int max_constant):
+ location(loc), floorValues(floor), zeroFraction(zero), fractionalOrder(fo), maxConstant(max_constant){}
+
+
 
 bool Region::isEquivalentTo(const Region& other) const {
     if (floorValues != other.floorValues) return false;
@@ -130,7 +134,7 @@ Region Region::delayPredecessor() const {
     std::map<std::string, int> floor = floorValues;
     if (!zeroFraction.empty()) {
         std::vector<std::string> lower = std::vector<std::string>(zeroFraction.begin(), zeroFraction.end());
-        fo.insert(fo.end(), lower.begin(), lower.end());
+        fo.push_back(lower);
         for (auto it : zeroFraction) {
             floor[it] = floor[it] - 1;
         }
@@ -181,11 +185,12 @@ std::vector<Region> Region::discretePredecessors(const std::vector<Transition>& 
         // salva la valutazione dei clock azzerati nella mappa reset
         bool flag = false;
         for (const auto clk : tr.resetClocks) {
-            if (floorValues.at(clk) != 0 || zeroFraction.find(clk) != zeroFraction.end() ) {
+            if (floorValues.at(clk) != 0 || zeroFraction.find(clk) == zeroFraction.end() ) {
                 flag = true;
                 break;
             }
         }
+        std::cout << flag << std::endl;
         if (flag) continue;
 
         std::map<std::string, int> floor = floorValues;
