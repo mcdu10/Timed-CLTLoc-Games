@@ -71,25 +71,48 @@ int main() {
     for (size_t i = 0; i < discreteSucc.size(); ++i) {
         std::cout << "Successore Discreto #" << i+1 << ":\n";
         discreteSucc[i].print();
-        for (auto coppia : discreteSucc[i].getRepresentativeValuation()) {
-            std::cout << "clock " << coppia.first << " valuation " << coppia.second << "\n";
-        };
         std::cout << "\n";
     }
 
     r.print();
 
     std::cout << "\n=== Discrete Predecessors ===\n";
-    auto discretePred = r.discretePredecessors({t1, t});
+    auto discretePred = r.discretePredecessors({t, t1});
     for (size_t i = 0; i < discretePred.size(); ++i) {
         std::cout << "Predecessore Discreto #" << i+1 << ":\n";
         discretePred[i].print();
-        for (auto coppia : discretePred[i].getRepresentativeValuation()) {
-            std::cout << "clock " << coppia.first << " valuation " << coppia.second << "\n";
-        };
         std::cout << "\n";
     }
 
+    // prova con due clock azzerati
+    std::map<std::string, double> val = {
+        {"x", 1.2},
+        {"y", 0.0},
+        {"z", 2.9},
+        {"t", 0.0}
+    };
+
+
+    Region r3(val, location, maxConstant);
+
+    std::cout << "=== Regione iniziale ===\n";
+    r3.print();
+
+    Transition t2 = {
+        location1,
+        action,
+        g,
+        {"y", "t"},
+        location
+    };
+
+    std::cout << "\n=== Discrete Predecessors ===\n";
+    auto dp = r3.discretePredecessors({t, t1, t2});
+    for (size_t i = 0; i < dp.size(); ++i) {
+        std::cout << "Predecessore Discreto #" << i+1 << ":\n";
+        dp[i].print();
+        std::cout << "\n";
+    }
 
 
     return 0;

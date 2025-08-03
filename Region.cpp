@@ -238,7 +238,7 @@ std::vector<Region> Region::discretePredecessors(const std::vector<Transition>& 
                                 result.emplace_back(nuova);
                             }
                             auto floor2 = floor;
-                            while(floor2[clk1] < maxConstant) {
+                            while(floor2[clk1] < maxConstant - 1) {
                                 floor2[clk1] = floor2[clk1] + 1;
                                 nuova = Region(location, floor2, zero2, fo2, maxConstant);
                                 if (!containsRegionEquivalentTo(result, nuova)) {
@@ -255,7 +255,7 @@ std::vector<Region> Region::discretePredecessors(const std::vector<Transition>& 
                                     result.emplace_back(nuova);
                                 }
                                 auto floor3 = floor;
-                                while(floor3[clk1] < maxConstant) {
+                                while(floor3[clk1] < maxConstant - 1) {
                                     floor3[clk1] = floor3[clk1] + 1;
                                     nuova = Region(location, floor3, zero2, fo3, maxConstant);
                                     if (!containsRegionEquivalentTo(result, nuova)) {
@@ -291,7 +291,7 @@ std::vector<Region> Region::discretePredecessors(const std::vector<Transition>& 
                                 result.emplace_back(nuova);
                             }
                             auto floor2 = floor;
-                            while(floor2[clk1] < maxConstant) {
+                            while(floor2[clk1] < maxConstant - 1) {
                                 floor2[clk1] = floor2[clk1] + 1;
                                 nuova = Region(location, floor2, zero2, fo2, maxConstant);
                                 if (!containsRegionEquivalentTo(result, nuova)) {
@@ -307,7 +307,7 @@ std::vector<Region> Region::discretePredecessors(const std::vector<Transition>& 
                                     result.emplace_back(nuova);
                                 }
                                 auto floor3 = floor;
-                                while(floor3[clk1] < maxConstant) {
+                                while(floor3[clk1] < maxConstant - 1) {
                                     floor3[clk1] = floor3[clk1] + 1;
                                     nuova = Region(location, floor3, zero2, fo3, maxConstant);
                                     if (!containsRegionEquivalentTo(result, nuova)) {
