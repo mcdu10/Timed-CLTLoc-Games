@@ -8,13 +8,15 @@
 #include <vector>
 #include <sstream>
 #include <map>
+#include <set>
+
 
 enum class Comparator { LE, LT, GE, GT, EQ, NEQ };
 
 struct ClockConstraint {
     std::string clock;
     Comparator op;
-    double constant;
+    int constant;
 
     bool evaluate(double value) const;
 };
@@ -27,5 +29,6 @@ public:
     Guard(std::initializer_list<ClockConstraint> list) : constraints(list) {}
 
     bool isSatisfiedBy(const std::map<std::string, double>& valuation) const;
+    bool isSatisfiedBy( const std::map<std::string, int>& floor, const std::set<std::string>& zero, const std::vector<std::vector<std::string>>& fo) const;
 };
 #endif //GUARD_H

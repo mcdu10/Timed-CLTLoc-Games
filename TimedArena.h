@@ -29,28 +29,23 @@ namespace TimedArena {
     using Condition = CLTLocFormula;
 
     struct State {
-        std::string location;
         Region region;
-        Player player ;
 
-        State(const Region& region, Player player);
+        State(const Region& region);
 
-        void print() const {
-            if (player ==  Player::Controller)
-             std::cout << "Controller " << std::endl;
-            else std::cout << "Environment " << std::endl;
-            std::cout << "location: " << region.location;
-            region.print();
-        }
+        void print() const;
 
     };
 
-    struct TransitionRelation {
-        State initial;
+    struct RegionTransition {
+        State source;
         std::variant<Act, double> transition;
-        State ending;
+        State target;
 
-        TransitionRelation(const State& state, double second, const State& ending);
+        RegionTransition();
+        RegionTransition(const State& state1, double time, const State& state2);
+        RegionTransition(const State& state1, Act action, const State& state2);
+
     };
 
     class TAr {
@@ -60,6 +55,8 @@ namespace TimedArena {
         std::string initialLocation;
         std::vector<Clock> clocks;
         std::vector<Transition> transitions;
+
+        TAr(const std::vector<Act>& actions, const std::vector<std::string>& locations, const std::string& initialLocation, const std::vector<Clock>& clocks, const std::vector<Transition>& transitions);
 
     };
 

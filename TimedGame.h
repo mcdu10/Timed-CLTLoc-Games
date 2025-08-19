@@ -24,21 +24,27 @@ class TimedGame
 public:
     TAr A;
 
+    int max;
+
+    std::set<State> ContrStates;
+    std::set<State> EnvStates;
+
     ClockValuation initialValuation;
     Condition winningCondition;
 
+
     // Discrete transition predecessor
-    std::vector<TransitionRelation> Omega (TAr A, std::vector<State> G);
+    std::vector<RegionTransition> Omega (TAr A, std::set<State> G);
 
     // Delay transition predecessor (controller e envoirement)
-    std::vector<TransitionRelation> Deltac (TAr A, std::vector<State> G);
-    std::vector<TransitionRelation> Deltae (TAr A, std::vector<State> G);
+    std::vector<RegionTransition> Deltac (TAr A, std::set<State> G);
+    std::vector<RegionTransition> Deltae (TAr A, std::set<State> G);
 
     // Overall transition predecessor
-    std::vector<TransitionRelation> Theta (TAr A, std::vector<State> G);
+    std::vector<RegionTransition> Theta (TAr A, std::set<State> G);
 
     // Controllable predecessor
-    std::vector<State> Pi (TAr A, std::vector<State> G);
+    std::vector<State> Pi (TAr A, std::set<State> G);
 
     void algorithm1();
 };

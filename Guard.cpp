@@ -25,3 +25,46 @@ bool Guard::isSatisfiedBy(const std::map<std::string, double>& valuation) const 
     }
     return true;
 }
+
+bool Guard::isSatisfiedBy(const std::map<std::string, int>& floor,
+                          const std::set<std::string>& zero,
+                          const std::vector<std::vector<std::string>>& fo) const {
+    for (const auto& constraint : constraints) {
+        const std::string& clk = constraint.clock;
+        int f = floor.at(clk);
+        bool isZero = (zero.find(clk) != zero.end());
+        int c = constraint.constant;
+
+        switch (constraint.op) {
+        case Comparator::LE:
+            if (isZero) { if (!(f <= c)) return false; }
+            else        { if (!(f < c))  return false; }
+            break;
+
+        case Comparator::LT:
+            if (!(f < c)) return false;
+            break;
+
+        case Comparator::GE:
+            if (isZero) { if (!(f >= c)) return false; }
+            else        { if (!((f + 1) > c)) return false; }
+            break;
+
+        case Comparator::GT:
+            if (isZero) { if (!(f > c)) return false; }
+            else        { if (!(f >= c)) return false; }
+            break;
+
+        case Comparator::EQ:
+            if (!(isZero && f == c)) return false;
+            break;
+
+        case Comparator::NEQ:
+            if (isZero && f == c) return false;
+            break;
+        }
+    }
+    return true;
+}
+
+

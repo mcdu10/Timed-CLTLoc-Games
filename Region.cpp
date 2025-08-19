@@ -151,22 +151,28 @@ Region Region::delayPredecessor() const {
 
 std::vector<Region> Region::discreteSuccessors(const std::vector<Transition>& transitions) const {
     std::vector<Region> result;
-    std::map<std::string, double> sampleVal = getRepresentativeValuation();
 
     for (const auto tr : transitions) {
         // controlla che la transizione parta dalla location corrente e che le
         // relative guardie siano soddisfatte
         if (tr.sourceLocation != location) continue;
-        if (!tr.isEnabled(sampleVal))  continue;
+        if (!tr.isEnabled(floorValues, zeroFraction, fractionalOrder))  continue;
 
         // azzera i clock giusti
-        std::map<std::string, double> update = sampleVal;
+        std::set<std::string> zeronew = zeroFraction;
+        std::map<std::string, int> floornew = floorValues;
+        std::vector<std::vector<std::string>> fonew = fractionalOrder;
+
         for (const auto clk : tr.resetClocks) {
-            update[clk] = 0;
+            zeronew.insert(clk);
+            floornew[clk] = 0;
+            for (auto& group : fonew) {
+                group.erase(std::remove(group.begin(), group.end(), clk), group.end());
+            }
         }
 
         // crea la region successiva
-        Region next(update, tr.targetLocation, maxConstant);
+        Region next(location, floornew, zeronew, fonew, maxConstant);
         result.push_back(next);
     }
 
