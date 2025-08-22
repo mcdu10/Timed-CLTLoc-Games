@@ -91,13 +91,6 @@ build CMakeFiles/Timed_CLTLoc_Games.dir/CLTLocFormula.cpp.o: CXX_COMPILER__Timed
   OBJECT_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
   OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
 
-build CMakeFiles/Timed_CLTLoc_Games.dir/TimedGame.cpp.o: CXX_COMPILER__Timed_CLTLoc_Games_unscanned_Debug /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedGame.cpp || cmake_object_order_depends_target_Timed_CLTLoc_Games
-  DEP_FILE = CMakeFiles/Timed_CLTLoc_Games.dir/TimedGame.cpp.o.d
-  FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk -fdiagnostics-color=always
-  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/.
-  OBJECT_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
-  OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
-
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Timed_CLTLoc_Games
@@ -106,7 +99,7 @@ build CMakeFiles/Timed_CLTLoc_Games.dir/TimedGame.cpp.o: CXX_COMPILER__Timed_CLT
 #############################################
 # Link the executable Timed_CLTLoc_Games
 
-build Timed_CLTLoc_Games: CXX_EXECUTABLE_LINKER__Timed_CLTLoc_Games_Debug CMakeFiles/Timed_CLTLoc_Games.dir/Region.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/Transition.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/Guard.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/TimedArena.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/main.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/CLTLocFormula.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/TimedGame.cpp.o
+build Timed_CLTLoc_Games: CXX_EXECUTABLE_LINKER__Timed_CLTLoc_Games_Debug CMakeFiles/Timed_CLTLoc_Games.dir/Region.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/Transition.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/Guard.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/TimedArena.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/main.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/CLTLocFormula.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk
   OBJECT_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
   POST_BUILD = :

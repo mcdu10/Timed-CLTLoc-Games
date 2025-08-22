@@ -16,10 +16,10 @@
 #include <variant>
 #include <memory>
 #include <iostream>
+#include <algorithm>
+#include <functional>
 
 namespace TimedArena {
-
-    enum class Player { Controller, Environment };
 
     struct Clock {
         std::string name;
@@ -28,36 +28,34 @@ namespace TimedArena {
     using ClockValuation = std::map<std::string, double>;
     using Condition = CLTLocFormula;
 
-    struct State {
-        Region region;
+    struct RegionTransition {
+        Region source;
+        std::variant<Act, double> transition;
+        Region target;
 
-        State(const Region& region);
-
-        void print() const;
+        RegionTransition();
+        RegionTransition(const Region& state1, double time, const Region& state2);
+        RegionTransition(const Region& state1, Act action, const Region& state2);
 
     };
 
-    struct RegionTransition {
-        State source;
-        std::variant<Act, double> transition;
-        State target;
+    struct RTS {
+        std::vector<Region> regions;
+        std::vector<RegionTransition> arches;
 
-        RegionTransition();
-        RegionTransition(const State& state1, double time, const State& state2);
-        RegionTransition(const State& state1, Act action, const State& state2);
-
+        void printRTS();
     };
 
     class TAr {
     public:
-        std::vector<Act> actions;
-        std::vector<std::string> locations;
-        std::string initialLocation;
-        std::vector<Clock> clocks;
+        Region R;
         std::vector<Transition> transitions;
 
-        TAr(const std::vector<Act>& actions, const std::vector<std::string>& locations, const std::string& initialLocation, const std::vector<Clock>& clocks, const std::vector<Transition>& transitions);
+        TAr(const Region& R, const std::vector<Transition>& transitions);
 
+        RTS BFS(std::function<std::vector<Region>(const Region&)> neighborFunc);
+
+        bool reachable(const Region& r);
     };
 
 

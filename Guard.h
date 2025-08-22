@@ -26,7 +26,10 @@ public:
     std::vector<ClockConstraint> constraints;
 
     Guard() = default;
-    Guard(std::initializer_list<ClockConstraint> list) : constraints(list) {}
+    Guard(std::vector<ClockConstraint> list) : constraints(list) {};
+    Guard(const ClockConstraint& c) {
+        constraints.push_back(c);
+    };
 
     bool isSatisfiedBy(const std::map<std::string, double>& valuation) const;
     bool isSatisfiedBy( const std::map<std::string, int>& floor, const std::set<std::string>& zero, const std::vector<std::vector<std::string>>& fo) const;

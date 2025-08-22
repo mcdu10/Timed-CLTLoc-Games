@@ -17,5 +17,4 @@ add_executable(Timed_CLTLoc_Games
         main.cpp
         CLTLocFormula.cpp
         CLTLocFormula.h
-        TimedGame.cpp
-        TimedGame.h)
+)

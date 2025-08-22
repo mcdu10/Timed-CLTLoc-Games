@@ -5,6 +5,8 @@
 #ifndef TRANSITION_H
 #define TRANSITION_H
 
+#include <iostream>
+
 #include "Guard.h"
 #include <string>
 #include <set>
@@ -18,6 +20,10 @@ struct Act {
 
     bool operator!=(const Act& other) const {
         return action != other.action;
+    }
+
+    void print () {
+        std::cout << action << std::endl;
     }
 };
 

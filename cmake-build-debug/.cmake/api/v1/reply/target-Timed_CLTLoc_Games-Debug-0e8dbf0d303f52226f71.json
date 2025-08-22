@@ -68,8 +68,7 @@
 				4,
 				6,
 				8,
-				9,
-				11
+				9
 			]
 		}
 	],
@@ -107,8 +106,7 @@
 				4,
 				6,
 				8,
-				9,
-				11
+				9
 			]
 		},
 		{
@@ -119,8 +117,7 @@
 				3,
 				5,
 				7,
-				10,
-				12
+				10
 			]
 		}
 	],
@@ -185,17 +182,6 @@
 		{
 			"backtrace" : 1,
 			"path" : "CLTLocFormula.h",
-			"sourceGroupIndex" : 1
-		},
-		{
-			"backtrace" : 1,
-			"compileGroupIndex" : 0,
-			"path" : "TimedGame.cpp",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 1,
-			"path" : "TimedGame.h",
 			"sourceGroupIndex" : 1
 		}
 	],
