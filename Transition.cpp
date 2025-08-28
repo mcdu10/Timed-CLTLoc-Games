@@ -13,3 +13,18 @@ bool Transition::isEnabled(const std::map<std::string, int>& floor,
                           const std::vector<std::vector<std::string>>& fo) const{
     return guard.isSatisfiedBy(floor, zero, fo);
 }
+
+void Transition::print() const{
+    std::cout << "Transition: "
+               << sourceLocation << " --["
+               << action.action;
+    if (!resetClocks.empty()) {
+        std::cout << ", reset {";
+        for (auto it = resetClocks.begin(); it != resetClocks.end(); ++it) {
+            if (it != resetClocks.begin()) std::cout << ", ";
+            std::cout << *it;
+        }
+        std::cout << "}";
+    }
+    std::cout << "]--> " << targetLocation << "\n";
+}

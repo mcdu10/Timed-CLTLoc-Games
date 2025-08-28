@@ -9,6 +9,9 @@
 #include <optional>
 #include <variant>
 #include <_strings.h>
+#include "RegionTransitionSystem.h"
+
+
 
 // Costruttore
 Region::Region(const std::map<std::string, double>& valuation, const std::string& loc, int maxConst)
@@ -49,6 +52,8 @@ Region::Region(const std::map<std::string, double>& valuation, const std::string
 
 Region::Region(const std::string& loc, const std::map<std::string, int>& floor, const std::set<std::string>& zero, const std::vector<std::vector<std::string>>& fo, int max_constant):
  location(loc), floorValues(floor), zeroFraction(zero), fractionalOrder(fo), maxConstant(max_constant){}
+
+Region::Region() : maxConstant(0), location("loc0") {} // costruttore di default
 
 
 
@@ -168,8 +173,9 @@ std::optional<Region> Region::delayPredecessor() const {
 }
 
 
-std::vector<Region> Region::discreteSuccessors(const std::vector<Transition>& transitions) const {
-    std::vector<Region> result;
+RTS Region::discreteSuccessors(const std::vector<Transition>& transitions) const {
+    RTS result;
+    result.regions.push_back(*this);
 
     for (const auto tr : transitions) {
         // controlla che la transizione parta dalla location corrente e che le
@@ -198,15 +204,17 @@ std::vector<Region> Region::discreteSuccessors(const std::vector<Transition>& tr
 
         // crea la region successiva
         Region next(tr.targetLocation, floornew, zeronew, fonew, maxConstant);
-        result.push_back(next);
+        result.regions.push_back(next);
+        result.arches.push_back(RegionTransition(*this, tr.action.action, next));
     }
 
     return result;
 };
 
 
-std::vector<Region> Region::discretePredecessors(const std::vector<Transition>& transitions) const {
-    std::vector<Region> result;
+RTS Region::discretePredecessors(const std::vector<Transition>& transitions) const {
+    RTS result;
+    result.regions.push_back(*this);
 
     for (const auto tr : transitions) {
         // controlla che la transizione finisca nella location corrente
@@ -232,7 +240,8 @@ std::vector<Region> Region::discretePredecessors(const std::vector<Transition>& 
         // Regione base
         auto nuova = Region(tr.sourceLocation, floor, baseZero, baseFO, maxConstant);
         if (tr.isEnabled(floor, baseZero, baseFO)) {
-            result.emplace_back(nuova);
+            result.regions.emplace_back(nuova);
+            result.arches.push_back(RegionTransition(nuova, tr.action.action, *this));
         }
 
         while (!tr.resetClocks.empty() && std::max_element(
@@ -252,7 +261,8 @@ std::vector<Region> Region::discretePredecessors(const std::vector<Transition>& 
                     fo.insert(fo.begin() + i, { clk });
                     nuova = Region(tr.sourceLocation, floor, zero, fo, maxConstant);
                     if (tr.isEnabled(floor, zero, fo)) {
-                        result.emplace_back(nuova);
+                        result.regions.emplace_back(nuova);
+                        result.arches.push_back(RegionTransition(nuova, tr.action.action, *this));
                     }
                     // Per ogni altro clk1 ≠ clk
                     for (const auto& clk1 : tr.resetClocks) {
@@ -266,14 +276,16 @@ std::vector<Region> Region::discretePredecessors(const std::vector<Transition>& 
                             fo2.insert(fo2.begin() + j, { clk1 });
                             nuova = Region(tr.sourceLocation, floor, zero2, fo2, maxConstant);
                             if (tr.isEnabled(floor, zero2, fo2)) {
-                                result.emplace_back(nuova);
+                                result.regions.emplace_back(nuova);
+                                result.arches.push_back(RegionTransition(nuova, tr.action.action, *this));
                             }
                             auto floor2 = floor;
                             while(floor2[clk1] < maxConstant - 1) {
                                 floor2[clk1] = floor2[clk1] + 1;
                                 nuova = Region(tr.sourceLocation, floor2, zero2, fo2, maxConstant);
                                 if (tr.isEnabled(floor2, zero2, fo)) {
-                                    result.emplace_back(nuova);
+                                    result.regions.emplace_back(nuova);
+                                    result.arches.push_back(RegionTransition(nuova, tr.action.action, *this));
                                 }
                             }
 
@@ -283,14 +295,16 @@ std::vector<Region> Region::discretePredecessors(const std::vector<Transition>& 
                                 fo3[j].push_back(clk1);
                                 nuova = Region(tr.sourceLocation, floor, zero2, fo3, maxConstant);
                                 if (tr.isEnabled(floor, zero2, fo3)) {
-                                    result.emplace_back(nuova);
+                                    result.regions.emplace_back(nuova);
+                                    result.arches.push_back(RegionTransition(nuova, tr.action.action, *this));
                                 }
                                 auto floor3 = floor;
                                 while(floor3[clk1] < maxConstant - 1) {
                                     floor3[clk1] = floor3[clk1] + 1;
                                     nuova = Region(tr.sourceLocation, floor3, zero2, fo3, maxConstant);
                                     if (tr.isEnabled(floor3, zero2, fo3)) {
-                                        result.emplace_back(nuova);
+                                        result.regions.emplace_back(nuova);
+                                        result.arches.push_back(RegionTransition(nuova, tr.action.action, *this));
                                     }
                                 }
                             }
@@ -306,7 +320,8 @@ std::vector<Region> Region::discretePredecessors(const std::vector<Transition>& 
                     zero.erase(clk);
                     nuova = Region(tr.sourceLocation, floor, zero, fo, maxConstant);
                     if (tr.isEnabled(floor, zero, fo)) {
-                        result.emplace_back(nuova);
+                        result.regions.emplace_back(nuova);
+                        result.arches.push_back(RegionTransition(nuova, tr.action.action, *this));
                     }
 
                     for (const auto& clk1 : tr.resetClocks) {
@@ -319,14 +334,16 @@ std::vector<Region> Region::discretePredecessors(const std::vector<Transition>& 
                             fo2.insert(fo2.begin() + j, { clk1 });
                             nuova = Region(tr.sourceLocation, floor, zero2, fo2, maxConstant);
                             if (tr.isEnabled(floor, zero2, fo2)) {
-                                result.emplace_back(nuova);
+                                result.regions.emplace_back(nuova);
+                                result.arches.push_back(RegionTransition(nuova, tr.action.action, *this));
                             }
                             auto floor2 = floor;
                             while(floor2[clk1] < maxConstant - 1) {
                                 floor2[clk1] = floor2[clk1] + 1;
                                 nuova = Region(tr.sourceLocation, floor2, zero2, fo2, maxConstant);
                                 if (tr.isEnabled(floor2, zero2, fo2)) {
-                                    result.emplace_back(nuova);
+                                    result.regions.emplace_back(nuova);
+                                    result.arches.push_back(RegionTransition(nuova, tr.action.action, *this));
                                 }
                             }
 
@@ -335,14 +352,16 @@ std::vector<Region> Region::discretePredecessors(const std::vector<Transition>& 
                                 fo3[j].push_back(clk1);
                                 nuova = Region(tr.sourceLocation, floor, zero2, fo3, maxConstant);
                                 if (tr.isEnabled(floor, zero2, fo3)) {
-                                    result.emplace_back(nuova);
+                                    result.regions.emplace_back(nuova);
+                                    result.arches.push_back(RegionTransition(nuova, tr.action.action, *this));
                                 }
                                 auto floor3 = floor;
                                 while(floor3[clk1] < maxConstant - 1) {
                                     floor3[clk1] = floor3[clk1] + 1;
                                     nuova = Region(tr.sourceLocation, floor3, zero2, fo3, maxConstant);
                                     if (tr.isEnabled(floor3, zero2, fo3)) {
-                                        result.emplace_back(nuova);
+                                        result.regions.emplace_back(nuova);
+                                        result.arches.push_back(RegionTransition(nuova, tr.action.action, *this));
                                     }
                                 }
                             }
@@ -362,7 +381,8 @@ std::vector<Region> Region::discretePredecessors(const std::vector<Transition>& 
             // Regione base
             auto nuova = Region(tr.sourceLocation, floor, baseZero, baseFO, maxConstant);
             if (tr.isEnabled(floor, baseZero, baseFO)) {
-                result.emplace_back(nuova);
+                result.regions.emplace_back(nuova);
+                result.arches.push_back(RegionTransition(nuova, tr.action.action, *this));
             }
         }
     }
@@ -371,24 +391,27 @@ std::vector<Region> Region::discretePredecessors(const std::vector<Transition>& 
 };
 
 
-std::vector<Region> Region::successor(const std::vector<Transition>& transitions) const {
-    std::vector<Region> result = discreteSuccessors(transitions);
+RTS Region::successor(const std::vector<Transition>& transitions) const {
+    RTS result = discreteSuccessors(transitions);
 
     auto delay = delaySuccessor();   // delay è un std::optional<Region>
     if (delay.has_value()) {         // controlla se esiste un successore di delay
-        result.push_back(delay.value());  // inserisci il Region effettivo
+        result.regions.push_back(delay.value());  // inserisci il Region effettivo
+        result.arches.push_back(RegionTransition(*this, "tau", delay.value()));
     }
 
     return result;
 }
 
 
-std::vector<Region> Region::predecessor(const std::vector<Transition>& transitions) const {
-    std::vector<Region> result = discretePredecessors(transitions);
+RTS Region::predecessor(const std::vector<Transition>& transitions) const {
+    RTS result = discretePredecessors(transitions);
     auto delay = delayPredecessor();   // delay è un std::optional<Region>
     if (delay.has_value()) {         // controlla se esiste un successore di delay
-        result.push_back(delay.value());  // inserisci il Region effettivo
-    }    return result;
+        result.regions.push_back(delay.value());  // inserisci il Region effettivo
+        result.arches.push_back(RegionTransition(delay.value(), "tau", *this));
+    }
+    return result;
 }
 
 

@@ -40,6 +40,7 @@ struct Transition {
                           const std::set<std::string>& zero,
                           const std::vector<std::vector<std::string>>& fo) const;
 
+    void print() const;
 
 };
 

@@ -4,68 +4,53 @@
 
 #include "TimedArena.h"
 
+#include <deque>
 #include <functional>
-
-
-TimedArena::RegionTransition::RegionTransition(const Region& state1, double time, const Region& state2):
-  source(state1), transition(time), target(state2){}
-
-TimedArena::RegionTransition::RegionTransition(const Region& state1, Act action, const Region& state2):
-  source(state1), transition(action), target(state2){}
-
-void TimedArena::RTS::printRTS() {
-    std::cout << "=== Regions ===\n";
-    for (size_t i = 0; i < regions.size(); ++i) {
-      std::cout << "\n";
-      std::cout << "R" << i << ": " << "\n";
-      regions[i].print();
-    }
-
-    std::cout << "\n=== Transitions ===\n";
-    for (const auto& t : arches) {
-      // trova indice sorgente e target
-      auto itSource = std::find_if(regions.begin(), regions.end(),
-          [&](const Region& r) { return r.isEquivalentTo(t.source); });
-      auto itTarget = std::find_if(regions.begin(), regions.end(),
-          [&](const Region& r) { return r.isEquivalentTo(t.target); });
-
-      int idxSource = (itSource != regions.end()) ? (itSource - regions.begin()) : -1;
-      int idxTarget = (itTarget != regions.end()) ? (itTarget - regions.begin()) : -1;
-
-      std::cout << "R" << idxSource << " --(";
-      if (std::holds_alternative<Act>(t.transition)) {
-        std::cout << std::get<Act>(t.transition).action;
-      } else {
-        std::cout << "delay=" << std::get<double>(t.transition);
-      }
-      std::cout << ")--> R" << idxTarget << "\n";
-    }
-}
-
 
 
 TimedArena::TAr::TAr(const Region& Reg, const std::vector<Transition>& tr):
   R(Reg), transitions(tr){}
 
+TimedArena::TAr::TAr(const std::vector<std::string>& locations,
+     const std::set<std::string>& clocks,
+     const std::vector<Transition>& trans,
+     const int max)
+    : transitions(trans)
+{
+  // floorValues inizializzati a 0
+  std::map<std::string,int> floorValues;
+  for (const auto& clk : clocks) {
+    floorValues[clk] = 0;
+  }
+
+  // Regione iniziale nella prima location
+  std::string startLoc = locations.empty() ? "loc0" : locations[0];
+  R = Region(startLoc, floorValues, clocks, {}, max);
+}
+
 enum class Color {black, grey};
 
-TimedArena::RTS TimedArena::TAr::BFS(std::function<std::vector<Region>(const Region&)> neighborFunc) {
+RTS TimedArena::TAr::BFS(std::function<RTS(const Region&)> neighborFunc) {
   RTS result;
 
   // Creo la coda ed inserisco la regione iniziale
-  std::vector<Region> queue;
+  std::deque<Region> queue;
   queue.push_back(R);
 
   std::map<std::string, Color> exp;
   exp[R.ID()] = Color::grey;
   while (!queue.empty()) {
     Region current = queue.front();
-    queue.erase(queue.begin());
-    for (const auto& t : neighborFunc(current)) {
+    queue.pop_front();
+    RTS neighbor = neighborFunc(current);
+    for (const auto& t : neighbor.regions) {
       if (exp.find(t.ID()) == exp.end()) {
         exp[t.ID()] = Color::grey;
         queue.push_back(t);
       }
+    }
+    for (const auto& arc : neighbor.arches) {
+      result.arches.push_back(arc);
     }
     exp[current.ID()] = Color::black;
     result.regions.push_back(current);
@@ -79,7 +64,7 @@ bool TimedArena::TAr::reachable(const Region& r) {
   RTS result;
 
   // Creo la coda ed inserisco la regione iniziale
-  std::vector<Region> queue;
+  std::deque<Region> queue;
   queue.push_back(R);
 
   std::map<std::string, Col> exp;
@@ -87,9 +72,9 @@ bool TimedArena::TAr::reachable(const Region& r) {
   exp[r.ID()] = Col::white;
   while (!queue.empty()) {
     Region current = queue.front();
-    queue.erase(queue.begin());
-    std::vector<Region> adjacent = current.predecessor(transitions);
-    std::vector<Region> succ = current.successor(transitions);
+    queue.pop_front();
+    std::vector<Region> adjacent = current.predecessor(transitions).regions;
+    std::vector<Region> succ = current.successor(transitions).regions;
     adjacent.insert(adjacent.end(), succ.begin(), succ.end());
     for (const auto& t : adjacent) {
       if (exp.find(t.ID()) == exp.end()) {
@@ -108,6 +93,14 @@ bool TimedArena::TAr::reachable(const Region& r) {
 
 
 
+void TimedArena::TAr::print() {
+  std::cout << "Initial region: " << std::endl;
+  R.print();
+  std::cout << "Transitions: " << std::endl;
+  for (const auto& t : transitions) {
+    t.print();
+  }
+};
 
 
 

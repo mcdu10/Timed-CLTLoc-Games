@@ -13,6 +13,9 @@
 #include <variant>
 #include "Transition.h"
 
+struct RTS;
+
+
 
 class Region {
 public:
@@ -40,19 +43,19 @@ public:
     std::optional<Region> delaySuccessor() const;
 
     // Restituisce le regioni raggiungibili tramite le transizioni (in input)
-    std::vector<Region> discreteSuccessors(const std::vector<Transition>& transitions) const;
+    RTS discreteSuccessors(const std::vector<Transition>& transitions) const;
 
     // Restituisce tutte le regioni raggiungibili
-    std::vector<Region> successor(const std::vector<Transition>& transitions) const;
+    RTS successor(const std::vector<Transition>& transitions) const;
 
     // Restituisce le regioni dalle quali si può raggiungere la corrente facendo passare il tempo
     std::optional<Region> delayPredecessor() const;
 
     // Restituisce le regioni dalle quali si può raggiungere la corrente tramite le transizioni (in input)
-    std::vector<Region> discretePredecessors(const std::vector<Transition>& transitions) const;
+    RTS discretePredecessors(const std::vector<Transition>& transitions) const;
 
     // Restituisce tutte le regioni dalle quali si può raggiungere la corrente (facendo passare il tempo o con transizioni)
-    std::vector<Region> predecessor(const std::vector<Transition>& transitions) const;
+    RTS predecessor(const std::vector<Transition>& transitions) const;
 
 
     // Stampa la regione
@@ -62,16 +65,9 @@ public:
     std::string ID() const;
 
 
-    bool operator<(const Region& other) const {
-        if (location != other.location) return location < other.location;
-        if (floorValues != other.floorValues) return floorValues < other.floorValues;
-        if (zeroFraction != other.zeroFraction) return zeroFraction < other.zeroFraction;
-        if (fractionalOrder != other.fractionalOrder) return fractionalOrder < other.fractionalOrder;
-        return maxConstant < other.maxConstant;
-    };
-    bool operator==(const Region& other) const {
-        return isEquivalentTo(other);
-    }
 };
+
+
+
 
 #endif //REGION_H

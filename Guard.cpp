@@ -5,6 +5,11 @@
 #include "Guard.h"
 #include <cmath>
 
+
+ClockConstraint::ClockConstraint(const char* str, Comparator gt, int i)
+    : clock(str), op(gt), constant(i) {}
+
+
 bool ClockConstraint::evaluate(double value) const {
     switch (op) {
     case Comparator::LE: return value <= constant;
