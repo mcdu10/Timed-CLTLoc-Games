@@ -80,7 +80,7 @@ std::string buildClockExpression( const std::map<std::string,int>& floorValues,
 
 void exportRTSGraphSmart(
     const RTS& rts,
-    const TimedArena::TAr arena,
+    const TAr arena,
     const std::string& dotFile,
     const std::string& logic)
 {

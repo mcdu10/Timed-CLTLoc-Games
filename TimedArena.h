@@ -20,37 +20,34 @@
 #include <functional>
 #include "RegionTransitionSystem.h"
 
-namespace TimedArena {
 
-    struct Clock {
-        std::string name;
-    };
-
-    using ClockValuation = std::map<std::string, double>;
-    using Condition = CLTLocFormula;
+using ClockValuation = std::map<std::string, double>;
+using Condition = CLTLocFormula;
+enum class PLAYER {controller, environment};
 
 
-    class TAr {
-    public:
-        Region R;
-        std::vector<Transition> transitions;
+class TAr {
+public:
+    std::map<std::string, PLAYER> locations;
+    Region R;
+    std::vector<Transition> transitions;
 
-        TAr(const Region& R, const std::vector<Transition>& transitions);
-        TAr(const std::vector<std::string>& locations,
+    TAr(const std::map<std::string, PLAYER> loc, const Region& R, const std::vector<Transition>& transitions);
+    TAr(const std::map<std::string, PLAYER>& locations,
      const std::set<std::string>& clocks,
      const std::vector<Transition>& trans,
      const int max);
 
 
-        RTS BFS(std::function<RTS(const Region&)> neighborFunc);
+    RTS BFS(std::function<RTS(const Region&)> neighborFunc);
 
-        bool reachable(const Region& r);
-
-        void print();
-    };
+    bool reachable(const Region& r);
 
 
-}
+    void print();
+};
+
+
 
 #endif // TIMEDARENA_H
 

@@ -20,7 +20,8 @@ struct ClockConstraint {
 
     bool evaluate(double value) const;
     ClockConstraint() = default;
-    ClockConstraint(const char* str, Comparator gt, int i);
+    ClockConstraint(const std::string clk, Comparator op, int c);
+
 };
 
 class Guard {

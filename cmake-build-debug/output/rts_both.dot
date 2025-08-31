@@ -11,38 +11,38 @@ digraph RTS {
   edge [fontsize=10, color=black, arrowsize=0.8];
   R0 [label="R0\noff
 1<x<2", fillcolor=lightgreen];
-  R1 [label="R1\non
-x=0", fillcolor=lightblue];
-  R2 [label="R2\noff
+  R1 [label="R1\noff
 x=2", fillcolor=lightblue];
+  R2 [label="R2\non
+x=0", fillcolor=lightblue];
   R3 [label="R3\noff
 x=1", fillcolor=lightblue];
   R4 [label="R4\non
-0<x<1", fillcolor=lightblue];
-  R5 [label="R5\noff
-x=0", fillcolor=lightblue];
-  R6 [label="R6\noff
-0<x<1", fillcolor=lightblue];
-  R7 [label="R7\non
 x=2", fillcolor=lightblue];
+  R5 [label="R5\non
+0<x<1", fillcolor=lightblue];
+  R6 [label="R6\noff
+x=0", fillcolor=lightblue];
+  R7 [label="R7\noff
+0<x<1", fillcolor=lightblue];
   R8 [label="R8\non
-x=1", fillcolor=lightblue];
-  R9 [label="R9\non
 1<x<2", fillcolor=lightblue];
-  { rank=same; R6; R0; R5; R3; R2; }
-  { rank=same; R4; R9; R1; R8; R7; }
-  R0 -> R1 [label="switch_on"];
-  R0 -> R2 [label="τ"];
-  R1 -> R4 [label="τ"];
-  R2 -> R1 [label="switch_on"];
-  R3 -> R1 [label="switch_on"];
+  R9 [label="R9\non
+x=1", fillcolor=lightblue];
+  { rank=same; R7; R0; R6; R3; R1; }
+  { rank=same; R5; R8; R2; R9; R4; }
+  R0 -> R1 [label="τ"];
+  R0 -> R2 [label="switch_on"];
+  R1 -> R2 [label="switch_on"];
+  R2 -> R5 [label="τ"];
   R3 -> R0 [label="τ"];
-  R4 -> R8 [label="τ"];
-  R5 -> R1 [label="switch_on"];
-  R5 -> R6 [label="τ"];
-  R6 -> R1 [label="switch_on"];
-  R6 -> R3 [label="τ"];
-  R7 -> R2 [label="switch_off"];
-  R8 -> R9 [label="τ"];
-  R9 -> R7 [label="τ"];
+  R3 -> R2 [label="switch_on"];
+  R4 -> R1 [label="switch_off"];
+  R5 -> R9 [label="τ"];
+  R6 -> R7 [label="τ"];
+  R6 -> R2 [label="switch_on"];
+  R7 -> R3 [label="τ"];
+  R7 -> R2 [label="switch_on"];
+  R8 -> R4 [label="τ"];
+  R9 -> R8 [label="τ"];
 }

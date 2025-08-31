@@ -10,8 +10,7 @@
 #include <string>
 #include "TimedArena.h"
 
-void exportRTSGraphSmart(const RTS& rts, const TimedArena::TAr arena, const std::string& dotFile, const std::string& logic);
-void generateRTSImageSmart(const std::string& dotFile, const std::string& imageFile);
+void exportRTSGraphSmart(const RTS& rts, const TAr arena, const std::string& dotFile, const std::string& logic);
 void openRTSGraphSVG(const std::string& dotFile, const std::string& svgFile);
 std::string buildClockExpression(
     const std::map<std::string,int>& floorValues,

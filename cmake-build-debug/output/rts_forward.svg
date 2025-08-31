@@ -33,143 +33,150 @@
 <!-- R1 -->
 <g id="node3" class="node">
 <title>R1</title>
-<polygon fill="lightblue" stroke="black" points="395.25,-46.25 341.25,-46.25 341.25,0 395.25,0 395.25,-46.25"/>
-<text xml:space="preserve" text-anchor="middle" x="368.25" y="-30.85" font-family="Helvetica,sans-Serif" font-size="12.00">R1</text>
-<text xml:space="preserve" text-anchor="middle" x="368.25" y="-18.1" font-family="Helvetica,sans-Serif" font-size="12.00">on</text>
-<text xml:space="preserve" text-anchor="middle" x="368.25" y="-5.35" font-family="Helvetica,sans-Serif" font-size="12.00">x=0</text>
+<polygon fill="lightblue" stroke="black" points="362.25,-186.38 308.25,-186.38 308.25,-140.12 362.25,-140.12 362.25,-186.38"/>
+<text xml:space="preserve" text-anchor="middle" x="335.25" y="-170.97" font-family="Helvetica,sans-Serif" font-size="12.00">R1</text>
+<text xml:space="preserve" text-anchor="middle" x="335.25" y="-158.22" font-family="Helvetica,sans-Serif" font-size="12.00">off</text>
+<text xml:space="preserve" text-anchor="middle" x="335.25" y="-145.47" font-family="Helvetica,sans-Serif" font-size="12.00">0&lt;x&lt;1</text>
 </g>
 <!-- R0&#45;&gt;R1 -->
 <g id="edge1" class="edge">
 <title>R0&#45;&gt;R1</title>
-<path fill="none" stroke="black" d="M253.29,-139.79C261.86,-118.34 277.13,-86.14 298.5,-64.25 308.16,-54.35 320.77,-46.11 332.62,-39.73"/>
-<polygon fill="black" stroke="black" points="333.86,-42.23 339.7,-36.1 331.31,-37.25 333.86,-42.23"/>
-<text xml:space="preserve" text-anchor="middle" x="319.88" y="-66" font-family="Times,serif" font-size="10.00">switch_on</text>
-</g>
-<!-- R2 -->
-<g id="node4" class="node">
-<title>R2</title>
-<polygon fill="lightblue" stroke="black" points="362.25,-186.38 308.25,-186.38 308.25,-140.12 362.25,-140.12 362.25,-186.38"/>
-<text xml:space="preserve" text-anchor="middle" x="335.25" y="-170.97" font-family="Helvetica,sans-Serif" font-size="12.00">R2</text>
-<text xml:space="preserve" text-anchor="middle" x="335.25" y="-158.22" font-family="Helvetica,sans-Serif" font-size="12.00">off</text>
-<text xml:space="preserve" text-anchor="middle" x="335.25" y="-145.47" font-family="Helvetica,sans-Serif" font-size="12.00">0&lt;x&lt;1</text>
-</g>
-<!-- R0&#45;&gt;R2 -->
-<g id="edge2" class="edge">
-<title>R0&#45;&gt;R2</title>
 <path fill="none" stroke="black" d="M272.74,-163.25C280.85,-163.25 289.87,-163.25 298.46,-163.25"/>
 <polygon fill="black" stroke="black" points="298.41,-166.05 306.41,-163.25 298.41,-160.45 298.41,-166.05"/>
 <text xml:space="preserve" text-anchor="middle" x="290.25" y="-168" font-family="Times,serif" font-size="10.00">τ</text>
 </g>
-<!-- R3 -->
-<g id="node5" class="node">
-<title>R3</title>
-<polygon fill="lightblue" stroke="black" points="485.25,-46.25 431.25,-46.25 431.25,0 485.25,0 485.25,-46.25"/>
-<text xml:space="preserve" text-anchor="middle" x="458.25" y="-30.85" font-family="Helvetica,sans-Serif" font-size="12.00">R3</text>
-<text xml:space="preserve" text-anchor="middle" x="458.25" y="-18.1" font-family="Helvetica,sans-Serif" font-size="12.00">on</text>
-<text xml:space="preserve" text-anchor="middle" x="458.25" y="-5.35" font-family="Helvetica,sans-Serif" font-size="12.00">0&lt;x&lt;1</text>
+<!-- R2 -->
+<g id="node4" class="node">
+<title>R2</title>
+<polygon fill="lightblue" stroke="black" points="395.25,-46.25 341.25,-46.25 341.25,0 395.25,0 395.25,-46.25"/>
+<text xml:space="preserve" text-anchor="middle" x="368.25" y="-30.85" font-family="Helvetica,sans-Serif" font-size="12.00">R2</text>
+<text xml:space="preserve" text-anchor="middle" x="368.25" y="-18.1" font-family="Helvetica,sans-Serif" font-size="12.00">on</text>
+<text xml:space="preserve" text-anchor="middle" x="368.25" y="-5.35" font-family="Helvetica,sans-Serif" font-size="12.00">x=0</text>
 </g>
-<!-- R1&#45;&gt;R3 -->
-<g id="edge3" class="edge">
-<title>R1&#45;&gt;R3</title>
-<path fill="none" stroke="black" d="M395.74,-23.12C403.85,-23.12 412.87,-23.12 421.46,-23.12"/>
-<polygon fill="black" stroke="black" points="421.41,-25.93 429.41,-23.13 421.41,-20.33 421.41,-25.93"/>
-<text xml:space="preserve" text-anchor="middle" x="413.25" y="-27.88" font-family="Times,serif" font-size="10.00">τ</text>
+<!-- R0&#45;&gt;R2 -->
+<g id="edge2" class="edge">
+<title>R0&#45;&gt;R2</title>
+<path fill="none" stroke="black" d="M253.29,-139.79C261.86,-118.34 277.13,-86.14 298.5,-64.25 308.16,-54.35 320.77,-46.11 332.62,-39.73"/>
+<polygon fill="black" stroke="black" points="333.86,-42.23 339.7,-36.1 331.31,-37.25 333.86,-42.23"/>
+<text xml:space="preserve" text-anchor="middle" x="319.88" y="-66" font-family="Times,serif" font-size="10.00">switch_on</text>
 </g>
-<!-- R2&#45;&gt;R1 -->
+<!-- R1&#45;&gt;R2 -->
 <g id="edge4" class="edge">
-<title>R2&#45;&gt;R1</title>
+<title>R1&#45;&gt;R2</title>
 <path fill="none" stroke="black" d="M336.24,-139.63C337.6,-119.47 340.84,-89.38 348.5,-64.25 349.43,-61.19 350.58,-58.07 351.84,-54.99"/>
 <polygon fill="black" stroke="black" points="354.31,-56.34 355.03,-47.9 349.2,-54.05 354.31,-56.34"/>
 <text xml:space="preserve" text-anchor="middle" x="369.88" y="-66" font-family="Times,serif" font-size="10.00">switch_on</text>
 </g>
-<!-- R4 -->
-<g id="node6" class="node">
-<title>R4</title>
+<!-- R3 -->
+<g id="node5" class="node">
+<title>R3</title>
 <polygon fill="lightblue" stroke="black" points="452.25,-186.38 398.25,-186.38 398.25,-140.12 452.25,-140.12 452.25,-186.38"/>
-<text xml:space="preserve" text-anchor="middle" x="425.25" y="-170.97" font-family="Helvetica,sans-Serif" font-size="12.00">R4</text>
+<text xml:space="preserve" text-anchor="middle" x="425.25" y="-170.97" font-family="Helvetica,sans-Serif" font-size="12.00">R3</text>
 <text xml:space="preserve" text-anchor="middle" x="425.25" y="-158.22" font-family="Helvetica,sans-Serif" font-size="12.00">off</text>
 <text xml:space="preserve" text-anchor="middle" x="425.25" y="-145.47" font-family="Helvetica,sans-Serif" font-size="12.00">x=1</text>
 </g>
-<!-- R2&#45;&gt;R4 -->
-<g id="edge5" class="edge">
-<title>R2&#45;&gt;R4</title>
+<!-- R1&#45;&gt;R3 -->
+<g id="edge3" class="edge">
+<title>R1&#45;&gt;R3</title>
 <path fill="none" stroke="black" d="M362.74,-163.25C370.85,-163.25 379.87,-163.25 388.46,-163.25"/>
 <polygon fill="black" stroke="black" points="388.41,-166.05 396.41,-163.25 388.41,-160.45 388.41,-166.05"/>
 <text xml:space="preserve" text-anchor="middle" x="380.25" y="-168" font-family="Times,serif" font-size="10.00">τ</text>
 </g>
-<!-- R5 -->
-<g id="node7" class="node">
-<title>R5</title>
-<polygon fill="lightblue" stroke="black" points="575.25,-46.25 521.25,-46.25 521.25,0 575.25,0 575.25,-46.25"/>
-<text xml:space="preserve" text-anchor="middle" x="548.25" y="-30.85" font-family="Helvetica,sans-Serif" font-size="12.00">R5</text>
-<text xml:space="preserve" text-anchor="middle" x="548.25" y="-18.1" font-family="Helvetica,sans-Serif" font-size="12.00">on</text>
-<text xml:space="preserve" text-anchor="middle" x="548.25" y="-5.35" font-family="Helvetica,sans-Serif" font-size="12.00">x=1</text>
+<!-- R4 -->
+<g id="node6" class="node">
+<title>R4</title>
+<polygon fill="lightblue" stroke="black" points="485.25,-46.25 431.25,-46.25 431.25,0 485.25,0 485.25,-46.25"/>
+<text xml:space="preserve" text-anchor="middle" x="458.25" y="-30.85" font-family="Helvetica,sans-Serif" font-size="12.00">R4</text>
+<text xml:space="preserve" text-anchor="middle" x="458.25" y="-18.1" font-family="Helvetica,sans-Serif" font-size="12.00">on</text>
+<text xml:space="preserve" text-anchor="middle" x="458.25" y="-5.35" font-family="Helvetica,sans-Serif" font-size="12.00">0&lt;x&lt;1</text>
 </g>
-<!-- R3&#45;&gt;R5 -->
-<g id="edge6" class="edge">
-<title>R3&#45;&gt;R5</title>
-<path fill="none" stroke="black" d="M485.74,-23.12C493.85,-23.12 502.87,-23.12 511.46,-23.12"/>
-<polygon fill="black" stroke="black" points="511.41,-25.93 519.41,-23.13 511.41,-20.33 511.41,-25.93"/>
-<text xml:space="preserve" text-anchor="middle" x="503.25" y="-27.88" font-family="Times,serif" font-size="10.00">τ</text>
+<!-- R2&#45;&gt;R4 -->
+<g id="edge5" class="edge">
+<title>R2&#45;&gt;R4</title>
+<path fill="none" stroke="black" d="M395.74,-23.12C403.85,-23.12 412.87,-23.12 421.46,-23.12"/>
+<polygon fill="black" stroke="black" points="421.41,-25.93 429.41,-23.13 421.41,-20.33 421.41,-25.93"/>
+<text xml:space="preserve" text-anchor="middle" x="413.25" y="-27.88" font-family="Times,serif" font-size="10.00">τ</text>
 </g>
-<!-- R4&#45;&gt;R1 -->
+<!-- R3&#45;&gt;R2 -->
 <g id="edge7" class="edge">
-<title>R4&#45;&gt;R1</title>
+<title>R3&#45;&gt;R2</title>
 <path fill="none" stroke="black" d="M418.83,-140C412.71,-119.83 402.74,-89.49 391.25,-64.25 389.84,-61.14 388.26,-57.96 386.61,-54.82"/>
 <polygon fill="black" stroke="black" points="389.16,-53.66 382.87,-47.98 384.25,-56.34 389.16,-53.66"/>
 <text xml:space="preserve" text-anchor="middle" x="417.12" y="-66" font-family="Times,serif" font-size="10.00">switch_on</text>
 </g>
-<!-- R6 -->
-<g id="node8" class="node">
-<title>R6</title>
+<!-- R5 -->
+<g id="node7" class="node">
+<title>R5</title>
 <polygon fill="lightblue" stroke="black" points="542.25,-186.38 488.25,-186.38 488.25,-140.12 542.25,-140.12 542.25,-186.38"/>
-<text xml:space="preserve" text-anchor="middle" x="515.25" y="-170.97" font-family="Helvetica,sans-Serif" font-size="12.00">R6</text>
+<text xml:space="preserve" text-anchor="middle" x="515.25" y="-170.97" font-family="Helvetica,sans-Serif" font-size="12.00">R5</text>
 <text xml:space="preserve" text-anchor="middle" x="515.25" y="-158.22" font-family="Helvetica,sans-Serif" font-size="12.00">off</text>
 <text xml:space="preserve" text-anchor="middle" x="515.25" y="-145.47" font-family="Helvetica,sans-Serif" font-size="12.00">1&lt;x&lt;2</text>
 </g>
-<!-- R4&#45;&gt;R6 -->
-<g id="edge8" class="edge">
-<title>R4&#45;&gt;R6</title>
+<!-- R3&#45;&gt;R5 -->
+<g id="edge6" class="edge">
+<title>R3&#45;&gt;R5</title>
 <path fill="none" stroke="black" d="M452.74,-163.25C460.85,-163.25 469.87,-163.25 478.46,-163.25"/>
 <polygon fill="black" stroke="black" points="478.41,-166.05 486.41,-163.25 478.41,-160.45 478.41,-166.05"/>
 <text xml:space="preserve" text-anchor="middle" x="470.25" y="-168" font-family="Times,serif" font-size="10.00">τ</text>
 </g>
-<!-- R7 -->
-<g id="node9" class="node">
-<title>R7</title>
-<polygon fill="lightblue" stroke="black" points="665.25,-46.25 611.25,-46.25 611.25,0 665.25,0 665.25,-46.25"/>
-<text xml:space="preserve" text-anchor="middle" x="638.25" y="-30.85" font-family="Helvetica,sans-Serif" font-size="12.00">R7</text>
-<text xml:space="preserve" text-anchor="middle" x="638.25" y="-18.1" font-family="Helvetica,sans-Serif" font-size="12.00">on</text>
-<text xml:space="preserve" text-anchor="middle" x="638.25" y="-5.35" font-family="Helvetica,sans-Serif" font-size="12.00">1&lt;x&lt;2</text>
+<!-- R6 -->
+<g id="node8" class="node">
+<title>R6</title>
+<polygon fill="lightblue" stroke="black" points="575.25,-46.25 521.25,-46.25 521.25,0 575.25,0 575.25,-46.25"/>
+<text xml:space="preserve" text-anchor="middle" x="548.25" y="-30.85" font-family="Helvetica,sans-Serif" font-size="12.00">R6</text>
+<text xml:space="preserve" text-anchor="middle" x="548.25" y="-18.1" font-family="Helvetica,sans-Serif" font-size="12.00">on</text>
+<text xml:space="preserve" text-anchor="middle" x="548.25" y="-5.35" font-family="Helvetica,sans-Serif" font-size="12.00">x=1</text>
 </g>
-<!-- R5&#45;&gt;R7 -->
-<g id="edge9" class="edge">
-<title>R5&#45;&gt;R7</title>
-<path fill="none" stroke="black" d="M575.74,-23.12C583.85,-23.12 592.87,-23.12 601.46,-23.12"/>
-<polygon fill="black" stroke="black" points="601.41,-25.93 609.41,-23.13 601.41,-20.33 601.41,-25.93"/>
-<text xml:space="preserve" text-anchor="middle" x="593.25" y="-27.88" font-family="Times,serif" font-size="10.00">τ</text>
+<!-- R4&#45;&gt;R6 -->
+<g id="edge8" class="edge">
+<title>R4&#45;&gt;R6</title>
+<path fill="none" stroke="black" d="M485.74,-23.12C493.85,-23.12 502.87,-23.12 511.46,-23.12"/>
+<polygon fill="black" stroke="black" points="511.41,-25.93 519.41,-23.13 511.41,-20.33 511.41,-25.93"/>
+<text xml:space="preserve" text-anchor="middle" x="503.25" y="-27.88" font-family="Times,serif" font-size="10.00">τ</text>
 </g>
-<!-- R6&#45;&gt;R1 -->
+<!-- R5&#45;&gt;R2 -->
 <g id="edge10" class="edge">
-<title>R6&#45;&gt;R1</title>
+<title>R5&#45;&gt;R2</title>
 <path fill="none" stroke="black" d="M502.49,-139.81C489.46,-118.38 467.59,-86.19 442.25,-64.25 430.92,-54.44 416.8,-46.05 403.93,-39.52"/>
 <polygon fill="black" stroke="black" points="405.48,-37.16 397.06,-36.16 403.02,-42.19 405.48,-37.16"/>
 <text xml:space="preserve" text-anchor="middle" x="473.29" y="-66" font-family="Times,serif" font-size="10.00">switch_on</text>
 </g>
+<!-- R7 -->
+<g id="node9" class="node">
+<title>R7</title>
+<polygon fill="lightblue" stroke="black" points="632.25,-186.38 578.25,-186.38 578.25,-140.12 632.25,-140.12 632.25,-186.38"/>
+<text xml:space="preserve" text-anchor="middle" x="605.25" y="-170.97" font-family="Helvetica,sans-Serif" font-size="12.00">R7</text>
+<text xml:space="preserve" text-anchor="middle" x="605.25" y="-158.22" font-family="Helvetica,sans-Serif" font-size="12.00">off</text>
+<text xml:space="preserve" text-anchor="middle" x="605.25" y="-145.47" font-family="Helvetica,sans-Serif" font-size="12.00">x=2</text>
+</g>
+<!-- R5&#45;&gt;R7 -->
+<g id="edge9" class="edge">
+<title>R5&#45;&gt;R7</title>
+<path fill="none" stroke="black" d="M542.74,-163.25C550.85,-163.25 559.87,-163.25 568.46,-163.25"/>
+<polygon fill="black" stroke="black" points="568.41,-166.05 576.41,-163.25 568.41,-160.45 568.41,-166.05"/>
+<text xml:space="preserve" text-anchor="middle" x="560.25" y="-168" font-family="Times,serif" font-size="10.00">τ</text>
+</g>
 <!-- R8 -->
 <g id="node10" class="node">
 <title>R8</title>
-<polygon fill="lightblue" stroke="black" points="632.25,-186.38 578.25,-186.38 578.25,-140.12 632.25,-140.12 632.25,-186.38"/>
-<text xml:space="preserve" text-anchor="middle" x="605.25" y="-170.97" font-family="Helvetica,sans-Serif" font-size="12.00">R8</text>
-<text xml:space="preserve" text-anchor="middle" x="605.25" y="-158.22" font-family="Helvetica,sans-Serif" font-size="12.00">off</text>
-<text xml:space="preserve" text-anchor="middle" x="605.25" y="-145.47" font-family="Helvetica,sans-Serif" font-size="12.00">x=2</text>
+<polygon fill="lightblue" stroke="black" points="665.25,-46.25 611.25,-46.25 611.25,0 665.25,0 665.25,-46.25"/>
+<text xml:space="preserve" text-anchor="middle" x="638.25" y="-30.85" font-family="Helvetica,sans-Serif" font-size="12.00">R8</text>
+<text xml:space="preserve" text-anchor="middle" x="638.25" y="-18.1" font-family="Helvetica,sans-Serif" font-size="12.00">on</text>
+<text xml:space="preserve" text-anchor="middle" x="638.25" y="-5.35" font-family="Helvetica,sans-Serif" font-size="12.00">1&lt;x&lt;2</text>
 </g>
 <!-- R6&#45;&gt;R8 -->
 <g id="edge11" class="edge">
 <title>R6&#45;&gt;R8</title>
-<path fill="none" stroke="black" d="M542.74,-163.25C550.85,-163.25 559.87,-163.25 568.46,-163.25"/>
-<polygon fill="black" stroke="black" points="568.41,-166.05 576.41,-163.25 568.41,-160.45 568.41,-166.05"/>
-<text xml:space="preserve" text-anchor="middle" x="560.25" y="-168" font-family="Times,serif" font-size="10.00">τ</text>
+<path fill="none" stroke="black" d="M575.74,-23.12C583.85,-23.12 592.87,-23.12 601.46,-23.12"/>
+<polygon fill="black" stroke="black" points="601.41,-25.93 609.41,-23.13 601.41,-20.33 601.41,-25.93"/>
+<text xml:space="preserve" text-anchor="middle" x="593.25" y="-27.88" font-family="Times,serif" font-size="10.00">τ</text>
+</g>
+<!-- R7&#45;&gt;R2 -->
+<g id="edge12" class="edge">
+<title>R7&#45;&gt;R2</title>
+<path fill="none" stroke="black" d="M591.14,-139.91C581.23,-125.44 566.98,-106.87 551.25,-93.5 504.73,-53.95 480.38,-64.92 422.25,-46.25 416.35,-44.36 410.19,-42.1 404.23,-39.78"/>
+<polygon fill="black" stroke="black" points="405.56,-37.29 397.1,-36.9 403.47,-42.49 405.56,-37.29"/>
+<text xml:space="preserve" text-anchor="middle" x="546.93" y="-66" font-family="Times,serif" font-size="10.00">switch_on</text>
 </g>
 <!-- R9 -->
 <g id="node11" class="node">
@@ -179,23 +186,16 @@
 <text xml:space="preserve" text-anchor="middle" x="728.25" y="-18.1" font-family="Helvetica,sans-Serif" font-size="12.00">on</text>
 <text xml:space="preserve" text-anchor="middle" x="728.25" y="-5.35" font-family="Helvetica,sans-Serif" font-size="12.00">x=2</text>
 </g>
-<!-- R7&#45;&gt;R9 -->
-<g id="edge12" class="edge">
-<title>R7&#45;&gt;R9</title>
+<!-- R8&#45;&gt;R9 -->
+<g id="edge13" class="edge">
+<title>R8&#45;&gt;R9</title>
 <path fill="none" stroke="black" d="M665.74,-23.12C673.85,-23.12 682.87,-23.12 691.46,-23.12"/>
 <polygon fill="black" stroke="black" points="691.41,-25.93 699.41,-23.13 691.41,-20.33 691.41,-25.93"/>
 <text xml:space="preserve" text-anchor="middle" x="683.25" y="-27.88" font-family="Times,serif" font-size="10.00">τ</text>
 </g>
-<!-- R8&#45;&gt;R1 -->
-<g id="edge13" class="edge">
-<title>R8&#45;&gt;R1</title>
-<path fill="none" stroke="black" d="M591.14,-139.91C581.23,-125.44 566.98,-106.87 551.25,-93.5 504.73,-53.95 480.38,-64.92 422.25,-46.25 416.35,-44.36 410.19,-42.1 404.23,-39.78"/>
-<polygon fill="black" stroke="black" points="405.56,-37.29 397.1,-36.9 403.47,-42.49 405.56,-37.29"/>
-<text xml:space="preserve" text-anchor="middle" x="546.93" y="-66" font-family="Times,serif" font-size="10.00">switch_on</text>
-</g>
-<!-- R9&#45;&gt;R8 -->
+<!-- R9&#45;&gt;R7 -->
 <g id="edge14" class="edge">
-<title>R9&#45;&gt;R8</title>
+<title>R9&#45;&gt;R7</title>
 <path fill="none" stroke="black" d="M708.22,-46.61C687.32,-70.09 654.45,-107 631.48,-132.79"/>
 <polygon fill="black" stroke="black" points="629.52,-130.78 626.29,-138.62 633.7,-134.51 629.52,-130.78"/>
 <text xml:space="preserve" text-anchor="middle" x="713.65" y="-66" font-family="Times,serif" font-size="10.00">switch_off</text>

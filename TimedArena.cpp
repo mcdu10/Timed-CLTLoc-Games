@@ -8,15 +8,16 @@
 #include <functional>
 
 
-TimedArena::TAr::TAr(const Region& Reg, const std::vector<Transition>& tr):
-  R(Reg), transitions(tr){}
+TAr::TAr(const std::map<std::string, PLAYER> loc, const Region& Reg, const std::vector<Transition>& tr):
+  locations(loc), R(Reg), transitions(tr){}
 
-TimedArena::TAr::TAr(const std::vector<std::string>& locations,
+TAr::TAr(const std::map<std::string, PLAYER>& loc,
      const std::set<std::string>& clocks,
      const std::vector<Transition>& trans,
      const int max)
     : transitions(trans)
 {
+  locations = loc;
   // floorValues inizializzati a 0
   std::map<std::string,int> floorValues;
   for (const auto& clk : clocks) {
@@ -24,13 +25,13 @@ TimedArena::TAr::TAr(const std::vector<std::string>& locations,
   }
 
   // Regione iniziale nella prima location
-  std::string startLoc = locations.empty() ? "loc0" : locations[0];
+  std::string startLoc = locations.empty() ? "loc0" : locations.begin()->first;
   R = Region(startLoc, floorValues, clocks, {}, max);
 }
 
 enum class Color {black, grey};
 
-RTS TimedArena::TAr::BFS(std::function<RTS(const Region&)> neighborFunc) {
+RTS TAr::BFS(std::function<RTS(const Region&)> neighborFunc) {
   RTS result;
 
   // Creo la coda ed inserisco la regione iniziale
@@ -49,7 +50,7 @@ RTS TimedArena::TAr::BFS(std::function<RTS(const Region&)> neighborFunc) {
         queue.push_back(t);
       }
     }
-    for (const auto& arc : neighbor.arches) {
+    for (auto& arc : neighbor.arches) {
       result.arches.push_back(arc);
     }
     exp[current.ID()] = Color::black;
@@ -60,7 +61,7 @@ RTS TimedArena::TAr::BFS(std::function<RTS(const Region&)> neighborFunc) {
 
 enum class Col {black, white, grey};
 
-bool TimedArena::TAr::reachable(const Region& r) {
+bool TAr::reachable(const Region& r) {
   RTS result;
 
   // Creo la coda ed inserisco la regione iniziale
@@ -93,7 +94,7 @@ bool TimedArena::TAr::reachable(const Region& r) {
 
 
 
-void TimedArena::TAr::print() {
+void TAr::print() {
   std::cout << "Initial region: " << std::endl;
   R.print();
   std::cout << "Transitions: " << std::endl;

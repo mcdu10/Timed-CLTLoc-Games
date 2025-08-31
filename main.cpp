@@ -12,6 +12,7 @@
 #include <iomanip>
 #include <random>
 #include <locale>
+#include "TimedCLTLocGame.h"
 
 
 
@@ -27,6 +28,7 @@ int main() {
     std::map<std::string, double> val;
     val["x"] = 0;
     Region R0(val, "off", 2);
+    std::map<std::string, PLAYER> loc = {{"on", PLAYER::controller}, {"off", PLAYER::controller}};
 
     Guard g;
     Transition switch_on = {"off", "switch_on", g, {"x"}, "on"};
@@ -45,7 +47,7 @@ int main() {
     }
 
     // Test starting from off, x=0 and going forward
-    TimedArena::TAr Arena(R0, transitions);
+    TAr Arena(loc, R0, transitions);
 
     // Forward BFS
     auto succFunc = [&transitions](const Region& r) -> RTS {
@@ -63,10 +65,11 @@ int main() {
     exportRTSGraphSmart(systForward, Arena, (outputDir / "rts_forward.dot").string(), "Forward, example switch on/off");
     openRTSGraphSVG((outputDir / "rts_forward.dot").string(), (outputDir / "rts_forward.svg").string());
 
+
     // Backward BFS
     val["x"] = 2;
     Region Rend(val, "off", 2);
-    TimedArena::TAr ArenaBack(Rend, transitions);
+    TAr ArenaBack(loc, Rend, transitions);
 
     auto predFunc = [&transitions](const Region& r) -> RTS {
         return r.predecessor(transitions);
@@ -86,7 +89,7 @@ int main() {
     // Additional test
     val["x"] = 1.3;
     Region Rmix(val, "off", 2);
-    TimedArena::TAr ArenaB(Rmix, transitions);
+    TAr ArenaB(loc, Rmix, transitions);
 
     // both successors and predecessors
     auto neighborsFunc = [&transitions](const Region& r) -> RTS {
@@ -147,7 +150,9 @@ int main() {
         {"loc1", "a", g1, {"y"}, "loc2"},
         {"loc2", "b", g2, {}, "loc1"}
     };
-    TimedArena::TAr manualAutoma(locations, clocks, trans, 5);
+
+    std::map<std::string, PLAYER> manualLoc = {{"loc1", PLAYER::controller}, {"loc2", PLAYER::controller}};
+    TAr manualAutoma(manualLoc, clocks, trans, 5);
     manualAutoma.print();
 
     // Lambda per manualAutoma
@@ -211,22 +216,24 @@ int main() {
         for (int nLoc : numLocationsList) {
             for (int nTrans : numTransitionsList) {
                 // costruzione automa e inizializzazione region
-                std::vector<std::string> clocksVec, locationsVec;
+                std::vector<std::string> clocksVec;
                 for (int i=0;i<nClock;++i) clocksVec.push_back("x"+std::to_string(i));
-                for (int i=0;i<nLoc;++i) locationsVec.push_back("loc"+std::to_string(i));
+                std::map<std::string, PLAYER> locationsVec;
+                for (int i=0;i<nClock;++i) clocksVec.push_back("x"+std::to_string(i));
+                for (int i=0;i<nLoc;++i) locationsVec["loc"+std::to_string(i)] = PLAYER::controller;
 
                 std::vector<Transition> transVec;
                 for (int i=0;i<nTrans;++i) {
-                    std::string src = locationsVec[i%nLoc];
-                    std::string dst = locationsVec[(i+1)%nLoc];
+                    std::string src = "loc" + std::to_string(i % nLoc);
+                    std::string dst = "loc" + std::to_string(i % nLoc);
                     transVec.push_back({src,"t"+std::to_string(i),Guard(),{},dst});
                 }
 
                 std::map<std::string,double> floorValues;
                 for (auto& c : clocksVec) floorValues[c] = 0;
-                Region startRegion(floorValues, locationsVec[0], 2);
+                Region startRegion(floorValues, "loc0", 2);
 
-                TimedArena::TAr arenaParam(startRegion, transVec);
+                TAr arenaParam(locationsVec, startRegion, transVec);
 
                 auto succProf = [&transVec](const Region& r) -> RTS { return r.successor(transVec); };
 
@@ -258,22 +265,23 @@ int main() {
     for (int nClock : numClocksList) {
         for (int nLoc : numLocationsList) {
             for (int nTrans : numTransitionsList) {
-                std::vector<std::string> clocksVec, locationsVec;
+                std::vector<std::string> clocksVec;
+                std::map<std::string, PLAYER> locationsVec;
                 for (int i=0;i<nClock;++i) clocksVec.push_back("x"+std::to_string(i));
-                for (int i=0;i<nLoc;++i) locationsVec.push_back("loc"+std::to_string(i));
+                for (int i=0;i<nLoc;++i) locationsVec["loc"+std::to_string(i)] = PLAYER::controller;
 
                 std::vector<Transition> transVec;
                 for (int i=0;i<nTrans;++i) {
-                    std::string src = locationsVec[i%nLoc];
-                    std::string dst = locationsVec[(i+1)%nLoc];
+                    std::string src = "loc" + std::to_string(i % nLoc);
+                    std::string dst = "loc" + std::to_string(i % nLoc);
                     transVec.push_back({src,"t"+std::to_string(i),Guard(),{},dst});
                 }
 
                 std::map<std::string,double> floorValues;
                 for (auto& c : clocksVec) floorValues[c] = 0;
-                Region startRegion(floorValues, locationsVec[0], 2);
+                Region startRegion(floorValues, "loc0", 2);
 
-                TimedArena::TAr arenaParam(startRegion, transVec);
+                TAr arenaParam(locationsVec, startRegion, transVec);
 
                 auto prevProf = [&transVec](const Region& r) -> RTS { return r.predecessor(transVec); };
 
@@ -303,22 +311,23 @@ int main() {
     for (int nClock : numClocksList) {
         for (int nLoc : numLocationsList) {
             for (int nTrans : numTransitionsList) {
-                std::vector<std::string> clocksVec, locationsVec;
+                std::vector<std::string> clocksVec;
                 for (int i=0;i<nClock;++i) clocksVec.push_back("x"+std::to_string(i));
-                for (int i=0;i<nLoc;++i) locationsVec.push_back("loc"+std::to_string(i));
+                std::map<std::string, PLAYER> locationsVec;
+                for (int i=0;i<nClock;++i) clocksVec.push_back("x"+std::to_string(i));
+                for (int i=0;i<nLoc;++i) locationsVec["loc"+std::to_string(i)] = PLAYER::controller;
 
                 std::vector<Transition> transVec;
                 for (int i=0;i<nTrans;++i) {
-                    std::string src = locationsVec[i%nLoc];
-                    std::string dst = locationsVec[(i+1)%nLoc];
+                    std::string src = "loc" + std::to_string(i % nLoc);
+                    std::string dst = "loc" + std::to_string(i % nLoc);
                     transVec.push_back({src,"t"+std::to_string(i),Guard(),{},dst});
                 }
 
                 std::map<std::string,double> floorValues;
                 for (auto& c : clocksVec) floorValues[c] = 0;
-                Region startRegion(floorValues, locationsVec[0], 2);
-
-                TimedArena::TAr arenaParam(startRegion, transVec);
+                Region startRegion(floorValues, "loc0", 2);
+                TAr arenaParam(locationsVec, startRegion, transVec);
 
                 auto bothProf = [&transVec](const Region& r) -> RTS {
                     RTS succ = r.successor(transVec);
@@ -350,5 +359,42 @@ int main() {
               << " seconds\n";
 
     std::cout << "\n[Every graph created and profiling tables are in the output folder/]\n";
+
+
+    // ----------------------------
+    //  Testing algorithm1
+    // ----------------------------
+
+    // --- 1. Definizione dell'arena (TAr) ---
+    val["x"] = 0;
+    R0 = Region(val, "off", 2);
+    loc = {{"on", PLAYER::controller}, {"off", PLAYER::controller}};
+
+    Guard guard;
+    Transition Switch_on = {"off", "switch_on", g, {"x"}, "on"};
+    ClockConstraint Clock_constraint = {"x", Comparator::EQ, 2};
+    Transition Switch_off = {"on", "switch_off", Guard(clock_constraint), {}, "off"};
+    std::vector<Transition> Transitions = {switch_on, switch_off};
+
+    // --- 2. Condizione di vittoria (CLTLocFormula) ---
+    Formula phi("off or on and x<1");
+    Formula psi("on and x=1");
+    // CLTLocFormula
+    CLTLocFormula winCond(phi, psi);
+    std::cout << "ancora ok" << std::endl;
+
+    // --- 3. Creazione del TCG ---
+    Arena = TAr(loc, R0, Transitions);
+    TCG game(Arena, winCond);
+    std::cout << "ancora ok" << std::endl;
+
+    // --- 4. Esecuzione dell'algoritmo 1 ---
+    RTS result = game.algorithm1();
+
+    // --- 5. Stampa dei risultati (esempio) ---
+    exportRTSGraphSmart(result, Arena, (outputDir / "rts_alg.dot").string(), "algorithm1, example switch on/off");
+    openRTSGraphSVG((outputDir / "rts_alg.dot").string(), (outputDir / "rts_alg.svg").string());
+
+
     return 0;
 }

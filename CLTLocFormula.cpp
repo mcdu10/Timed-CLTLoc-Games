@@ -6,48 +6,203 @@
 #include <iostream>
 #include <cmath>
 
-std::string toString(const Comparator& cmp) {
-    switch (cmp) {
-    case Comparator::LE: return "≤";
-    case Comparator::LT: return "<";
-    case Comparator::GE: return "≥";
-    case Comparator::GT: return ">";
-    case Comparator::EQ: return "=";
-    case Comparator::NEQ: return "≠";
-    }
-    return "?";
-}
+AtomicProposition::AtomicProposition(const std::string& token)
+    : name(token) {}
 
-std::string toString(const ClockTerm& term) {
-    if (term.isClock) return term.name;
-    return std::to_string(term.constantValue);
-}
-
-std::string toString(const CLTLocFormula& formula) {
-    if (std::holds_alternative<ClockConstraintFormula>(formula.content)) {
-        const auto& c = std::get<ClockConstraintFormula>(formula.content);
-        return toString(c.lhs) + " " + toString(c.op) + " " + toString(c.rhs);
-
-    } else if (std::holds_alternative<AtomicProposition>(formula.content)) {
-        const auto& p = std::get<AtomicProposition>(formula.content);
-        return p.name;
-
-    } else if (std::holds_alternative<LogicalOpFormula>(formula.content)) {
-        const auto& op = std::get<LogicalOpFormula>(formula.content);
-        switch (op.op) {
-        case LogicalOpType::AND:
-            return "(" + toString(*op.subformulas[0]) + " ∧ " + toString(*op.subformulas[1]) + ")";
-        case LogicalOpType::OR:
-            return "(" + toString(*op.subformulas[0]) + " ∨ " + toString(*op.subformulas[1]) + ")";
-        case LogicalOpType::NOT:
-            return "¬(" + toString(*op.subformulas[0]) + ")";
-        case LogicalOpType::NEXT:
-            return  "◯(" + toString(*op.subformulas[0]) + ")";
-        case LogicalOpType::UNTIL:
-            return "(" + toString(*op.subformulas[0]) + " U " + toString(*op.subformulas[1]) + ")";
-        case  LogicalOpType::EVENTUALLY:
-            return "◊(" + toString(*op.subformulas[0]) + ")";
+void Formula::parse(const std::string& input) {
+    std::istringstream iss(input);
+    std::string token;
+    while (iss >> token) {
+        if (token == "and") {
+            operators.emplace_back(LogicalOperator::AND);
+        } else if (token == "or") {
+            operators.emplace_back(LogicalOperator::OR);
+        } else if (token == "not") {
+            operators.emplace_back(LogicalOperator::NOT);
+        }
+        // clock constraint tipo "x<=5"
+        else if (isClockConstraint(token)) {
+            operators.emplace_back(parseClockConstraint(token));
+        }
+        // altrimenti è un'atomic proposition
+        else {
+            operators.emplace_back(AtomicProposition(token));
         }
     }
-    return "<?>";
+};
+
+bool Formula::isClockConstraint(const std::string& token) {
+    return token.find('<') != std::string::npos ||
+           token.find('>') != std::string::npos ||
+           token.find('=') != std::string::npos;
+}
+
+ClockConstraint Formula::parseClockConstraint(const std::string& token) {
+    std::string clock;
+    Comparator op;
+    std::string numberStr;
+
+    for (size_t i = 0; i < token.size(); i++) {
+        char c = token[i];
+
+        if (std::isdigit(c)) {
+            numberStr.push_back(c);
+        }
+        else if (c == '<' && i + 1 < token.size() && token[i + 1] == '=') {
+            op = Comparator::LE;
+            i++; // salta '='
+        }
+        else if (c == '>' && i + 1 < token.size() && token[i + 1] == '=') {
+            op = Comparator::GE;
+            i++; // salta '='
+        }
+        else if (c == '<') {
+            op = Comparator::LT;
+        }
+        else if (c == '>') {
+            op = Comparator::GT;
+        }
+        else if (c == '=') {
+            op = Comparator::EQ;
+        }
+        else {
+            // assume che sia parte del nome del clock
+            clock.push_back(c);
+        }
+    }
+
+    int constant = std::stoi(numberStr);
+    return ClockConstraint(clock, op, constant);
+}
+
+
+
+bool Formula::Enabled(std::variant<AtomicProposition, LogicalOperator, ClockConstraint>& op, Region& r) {
+    // ClockConstraint
+    if (std::holds_alternative<ClockConstraint>(op)) {
+        ClockConstraint c = std::get<ClockConstraint>(op);
+
+        auto itClock = r.floorValues.find(c.clock);
+        if (itClock == r.floorValues.end()) return false; // clock non presente
+
+        int f = itClock->second;
+        bool isZero = (r.zeroFraction.find(c.clock) != r.zeroFraction.end());
+        int cnst = c.constant;
+
+        switch (c.op) {
+        case Comparator::LE: return isZero ? (f <= cnst) : (f < cnst);
+        case Comparator::LT: return (f < cnst);
+        case Comparator::GE: return isZero ? (f >= cnst) : ((f + 1) > cnst);
+        case Comparator::GT: return isZero ? (f > cnst) : (f >= cnst);
+        case Comparator::EQ: return (isZero && f == cnst);
+        case Comparator::NEQ: return !(isZero && f == cnst);
+        default: return false;
+        }
+    }
+
+    // AtomicProposition
+    if (std::holds_alternative<AtomicProposition>(op)) {
+        AtomicProposition prop = std::get<AtomicProposition>(op);
+        return r.location == prop.name;
+    }
+
+    // LogicalOperator non valutabile da solo
+    return false;
+}
+
+void Formula::print() {
+    for (auto& op : operators) {
+        if(std::holds_alternative<AtomicProposition>(op)) {
+            AtomicProposition ap = std::get<AtomicProposition>(op);
+            std::cout << "Atomic proposition: " << ap.name << std::endl;
+        }
+        if(std::holds_alternative<LogicalOperator>(op)) {
+            LogicalOperator lop = std::get<LogicalOperator>(op);
+            switch (lop) {
+            case LogicalOperator::OR: std::cout << "or" << std::endl; break;
+            case LogicalOperator::AND: std::cout << "and" << std::endl; break;
+            case LogicalOperator::NOT: std::cout << "not" << std::endl; break;
+            }
+        }
+        if(std::holds_alternative<ClockConstraint>(op)) {
+            ClockConstraint c = std::get<ClockConstraint>(op);
+            std::cout << "Clock constraint: " << c.clock;
+            switch (c.op) {
+            case Comparator::LE: std::cout << "<=" << c.constant << std::endl; break;
+            case Comparator::LT: std::cout << "<" << c.constant << std::endl; break;
+            case Comparator::GE: std::cout << ">=" << c.constant << std::endl; break;
+            case Comparator::GT: std::cout << ">" << c.constant << std::endl; break;
+            case Comparator::EQ: std::cout << "=" << c.constant << std::endl; break;
+            case Comparator::NEQ: std::cout << "!=" << c.constant << std::endl; break;
+            }
+        }
+    }
+}
+
+
+bool CLTLocFormula::phiEnabled(Region r) {
+
+    auto it = phi.operators.begin();
+    if (it == phi.operators.end()) return false;
+
+    // risultato iniziale
+    bool result = phi.Enabled(*it, r);
+    ++it;
+
+
+    while (it != phi.operators.end()) {
+        if (std::holds_alternative<LogicalOperator>(*it)) {
+            LogicalOperator op = std::get<LogicalOperator>(*it);
+            auto nextIt = std::next(it);
+            if (nextIt == phi.operators.end()) break;
+
+            bool val = phi.Enabled(*nextIt, r);
+
+            if (op == LogicalOperator::NOT) {
+                val = !val;
+            } else if (op == LogicalOperator::AND) {
+                result = result && val;
+            } else if (op == LogicalOperator::OR) {
+                result = result || val;
+            }
+
+            it = nextIt; // salto l’elemento successivo
+        }
+        ++it;
+    }
+
+
+    return result;
+}
+
+bool CLTLocFormula::psiEnabled(Region r) {
+    auto it = psi.operators.begin();
+    if (it == psi.operators.end()) return false;
+
+    // risultato iniziale
+    bool result = psi.Enabled(*it, r);
+    ++it;
+
+    while (it != psi.operators.end()) {
+        if (std::holds_alternative<LogicalOperator>(*it)) {
+            LogicalOperator op = std::get<LogicalOperator>(*it);
+            auto nextIt = std::next(it);
+            if (nextIt == psi.operators.end()) break;
+
+            bool val = psi.Enabled(*nextIt, r);
+
+            if (op == LogicalOperator::NOT) {
+                val = !val;
+            } else if (op == LogicalOperator::AND) {
+                result = result && val;
+            } else if (op == LogicalOperator::OR) {
+                result = result || val;
+            }
+
+            it = nextIt; // salto l’elemento successivo
+        }
+        ++it;
+    }
+
+    return result;
 }

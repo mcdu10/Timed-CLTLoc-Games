@@ -20,12 +20,12 @@ struct RTS;
 class Region {
 public:
     std::string location;
-    std::map<std::string, int> floorValues;  // Parte intera dei clock
-    std::set<std::string> zeroFraction;  // Clock con parte frazionaria zero
-    std::vector<std::vector<std::string>> fractionalOrder;  // Ordine tra le frazioni
-    int maxConstant;
+    std::map<std::string, int> floorValues;  // Integer part
+    std::set<std::string> zeroFraction;  // Clock with zero fractional part
+    std::vector<std::vector<std::string>> fractionalOrder;  // Ordering of fractional parts
+    int maxConstant; // Max const with which the clocks are compared
 
-    // Costruttore: crea una regione a partire da una valutazione dei clock
+    // Constructors:
     Region(const std::map<std::string, double>& valuation, const std::string& loc, int maxConst);
     Region(const std::string& loc, const std::map<std::string, int>& floor, const std::set<std::string>& zero, const std::vector<std::vector<std::string>>& fo, int max_constant);
     Region();
@@ -64,10 +64,15 @@ public:
     // ID per identificare univocamente una regione
     std::string ID() const;
 
+    std::string clockID() const;
+
+    bool operator==(const Region& other) const {
+        return this->ID() == other.ID();
+    }
+
+
 
 };
-
-
 
 
 #endif //REGION_H

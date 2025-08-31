@@ -6,8 +6,9 @@
 #include <cmath>
 
 
-ClockConstraint::ClockConstraint(const char* str, Comparator gt, int i)
+ClockConstraint::ClockConstraint(const std::string str, Comparator gt, int i)
     : clock(str), op(gt), constant(i) {}
+
 
 
 bool ClockConstraint::evaluate(double value) const {

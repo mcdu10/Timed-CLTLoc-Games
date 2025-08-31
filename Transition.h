@@ -34,7 +34,6 @@ struct Transition {
     std::set<std::string> resetClocks;
     std::string targetLocation;
 
-    // controllo guardie
     bool isEnabled(const std::map<std::string, double>& valuation) const;
     bool isEnabled (const std::map<std::string, int>& floor,
                           const std::set<std::string>& zero,

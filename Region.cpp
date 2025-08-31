@@ -396,8 +396,8 @@ RTS Region::successor(const std::vector<Transition>& transitions) const {
 
     auto delay = delaySuccessor();   // delay è un std::optional<Region>
     if (delay.has_value()) {         // controlla se esiste un successore di delay
-        result.regions.push_back(delay.value());  // inserisci il Region effettivo
-        result.arches.push_back(RegionTransition(*this, "tau", delay.value()));
+        result.regions.insert(result.regions.begin(), delay.value());
+        result.arches.insert(result.arches.begin(), RegionTransition(*this, "tau", delay.value()));
     }
 
     return result;
@@ -408,8 +408,8 @@ RTS Region::predecessor(const std::vector<Transition>& transitions) const {
     RTS result = discretePredecessors(transitions);
     auto delay = delayPredecessor();   // delay è un std::optional<Region>
     if (delay.has_value()) {         // controlla se esiste un successore di delay
-        result.regions.push_back(delay.value());  // inserisci il Region effettivo
-        result.arches.push_back(RegionTransition(delay.value(), "tau", *this));
+        result.regions.insert(result.regions.begin(), delay.value());
+        result.arches.insert(result.arches.begin(), RegionTransition(*this, "tau", delay.value()));
     }
     return result;
 }
@@ -467,3 +467,31 @@ std::string Region::ID() const {
 
     return oss.str();
 }
+
+std::string Region::clockID() const {
+    std::ostringstream oss;
+
+    // floorValues
+    for (const auto& [clk, val] : floorValues) {
+        oss << clk << ":" << val << ",";
+    }
+    oss << "|";
+
+    // zeroFraction
+    for (const auto& clk : zeroFraction) {
+        oss << clk << ",";
+    }
+    oss << "|";
+
+    // fractionalOrder
+    for (const auto& group : fractionalOrder) {
+        oss << "[";
+        for (const auto& clk : group) {
+            oss << clk << ",";
+        }
+        oss << "]";
+    }
+
+    return oss.str();
+}
+

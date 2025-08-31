@@ -21,4 +21,6 @@ add_executable(Timed_CLTLoc_Games
         RegionTransitionSystem.h
         image.cpp
         image.h
+        TimedCLTLocGame.cpp
+        TimedCLTLocGame.h
 )

@@ -13,46 +13,48 @@
 #include "Guard.h"
 #include <map>
 
-struct ClockTerm {
-    bool isClock;
-    std::string name;
-    double constantValue = 0.0;
-};
-
-struct ClockConstraintFormula {
-    ClockTerm lhs;
-    Comparator op;
-    ClockTerm rhs;
-};
+#include "Region.h"
 
 struct AtomicProposition {
     std::string name;
+    AtomicProposition() = default;
+    explicit AtomicProposition(const std::string& token);
 };
 
-enum class LogicalOpType { AND, OR, NOT, NEXT, UNTIL, EVENTUALLY };
+enum class LogicalOperator { AND, OR, NOT };
 
-struct LogicalOpFormula;
+struct Formula {
+    std::vector<std::variant<AtomicProposition, LogicalOperator, ClockConstraint>> operators;
 
-struct CLTLocFormula;
 
-using FormulaContent = std::variant<ClockConstraintFormula, AtomicProposition, LogicalOpFormula>;
+    Formula() = default;
+    explicit Formula(const std::string& input) {
+        parse(input);
+    }
 
-struct LogicalOpFormula {
-    LogicalOpType op;
-    std::vector<std::shared_ptr<CLTLocFormula>> subformulas;
+    bool Enabled(std::variant<AtomicProposition, LogicalOperator, ClockConstraint>& op, Region& r);
+
+    void print();
+
+private:
+    void parse(const std::string& input);
+
+    static bool isClockConstraint(const std::string& token);
+
+    static ClockConstraint parseClockConstraint(const std::string& token);
 };
 
 struct CLTLocFormula {
-    FormulaContent content;
+    Formula phi;
+    Formula psi;
 
-    CLTLocFormula(const ClockConstraintFormula& f) : content(f) {}
-    CLTLocFormula(const AtomicProposition& p) : content(p) {}
-    CLTLocFormula(const LogicalOpFormula& op) : content(op) {}
+    CLTLocFormula(const Formula& p, const Formula& p2) : phi(p), psi(p2) {}
+    CLTLocFormula(const std::string& inputphi, const std::string& inputpsi) : phi(inputphi), psi(inputpsi) {}
+
+    bool phiEnabled(Region R);
+    bool psiEnabled(Region R);
 };
 
-std::string toString(const Comparator& cmp);
-std::string toString(const ClockTerm& term);
-std::string toString(const CLTLocFormula& formula);
 
 
 #endif //CLTLOCFORMULA_H
