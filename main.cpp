@@ -381,18 +381,18 @@ int main() {
     Formula psi("on and x=1");
     // CLTLocFormula
     CLTLocFormula winCond(phi, psi);
-    std::cout << "ancora ok" << std::endl;
 
     // --- 3. Creazione del TCG ---
     Arena = TAr(loc, R0, Transitions);
     TCG game(Arena, winCond);
-    std::cout << "ancora ok" << std::endl;
 
     // --- 4. Esecuzione dell'algoritmo 1 ---
     RTS result = game.algorithm1();
 
+    result.printRTS();
+
     // --- 5. Stampa dei risultati (esempio) ---
-    exportRTSGraphSmart(result, Arena, (outputDir / "rts_alg.dot").string(), "algorithm1, example switch on/off");
+    exportRTSGraphSmart(result, Arena, (outputDir / "rts_alg.dot").string(), "algorithm1, example switch on/off,\n winning condition: off or on and x<1 Until on and x=1");
     openRTSGraphSVG((outputDir / "rts_alg.dot").string(), (outputDir / "rts_alg.svg").string());
 
 

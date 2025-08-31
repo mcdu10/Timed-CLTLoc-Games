@@ -119,11 +119,8 @@ RTS TCG::algorithm1() {
         return resul;
     };
     RTS Ra = A.BFS(neighborsFunc);
-    std::cout << "ancora ok dopo BFS A" << std::endl;
     std::vector<Region> S;
     std::vector<Region> G;
-    winningCondition.phi.print();
-    winningCondition.psi.print();
     for (auto r : Ra.regions) {
         if (winningCondition.phiEnabled(r)) {
             S.push_back(r);
@@ -132,43 +129,21 @@ RTS TCG::algorithm1() {
             G.push_back(r);
         }
     }
-    std::cout << "ancora ok dopo S, G" << std::endl;
-    std::cout << S.size() << std::endl;
-    std::cout << G.size() << std::endl;
-    for (auto r : S) {
-        r.print();
-    }
-    for (auto r : G) {
-        r.print();
-    }
     std::vector<Region> barG;
-    std::cout << "ok prima di bar G" << std::endl;
     while(barG != G) {
-        std::cout << "barG size = " << barG.size()
-           << ", G size = " << G.size() << std::endl;
 
         barG.clear();
         barG.insert(barG.end(), G.begin(), G.end());
-        std::cout << "barG size = " << barG.size()
-           << ", G size = " << G.size() << std::endl;
+
         std::vector<Region> barS = Pi(barG);
 
-        std::cout << "barS size = " << barS.size() << std::endl;
         for (auto r : barS) {
             if (find(S.begin(), S.end(), r) != S.end() && std::find(G.begin(), G.end(), r) == G.end()) {
                 G.push_back(r);
             }
         }
-        std::cout << "barG size = " << barG.size()
-           << ", G size = " << G.size() << std::endl;
     }
-    std::cout << "ok dopo while bar G" << std::endl;
-    for (auto r : G) {
-        r.print();
-    }
-    A.R.print();
     if (find(G.begin(), G.end(), A.R) != G.end()) {
-        std::cout << "esiste" << std::endl;
         result.regions = G;
         std::vector<RegionTransition> arch = OmegaOmega(G);
         for (auto a : Ra.arches) {
