@@ -18,13 +18,13 @@ TAr::TAr(const std::map<std::string, PLAYER>& loc,
     : transitions(trans)
 {
   locations = loc;
-  // floorValues inizializzati a 0
+  // floorValues initialized to 0
   std::map<std::string,int> floorValues;
   for (const auto& clk : clocks) {
     floorValues[clk] = 0;
   }
 
-  // Regione iniziale nella prima location
+  // Starting region in the first location
   std::string startLoc = locations.empty() ? "loc0" : locations.begin()->first;
   R = Region(startLoc, floorValues, clocks, {}, max);
 }
@@ -34,7 +34,7 @@ enum class Color {black, grey};
 RTS TAr::BFS(std::function<RTS(const Region&)> neighborFunc) {
   RTS result;
 
-  // Creo la coda ed inserisco la regione iniziale
+  // Creation of the queue and insertion of the starting region
   std::deque<Region> queue;
   queue.push_back(R);
 
@@ -64,7 +64,7 @@ enum class Col {black, white, grey};
 bool TAr::reachable(const Region& r) {
   RTS result;
 
-  // Creo la coda ed inserisco la regione iniziale
+  // Creation of the queue and insertion of the starting region
   std::deque<Region> queue;
   queue.push_back(R);
 

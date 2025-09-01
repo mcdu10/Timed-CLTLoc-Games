@@ -52,8 +52,7 @@ bool Guard::isSatisfiedBy(const std::map<std::string, int>& floor,
             break;
 
         case Comparator::GE:
-            if (isZero) { if (!(f >= c)) return false; }
-            else        { if (!((f + 1) > c)) return false; }
+            if (!(f >= c)) return false;
             break;
 
         case Comparator::GT:

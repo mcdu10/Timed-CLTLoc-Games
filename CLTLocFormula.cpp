@@ -20,11 +20,11 @@ void Formula::parse(const std::string& input) {
         } else if (token == "not") {
             operators.emplace_back(LogicalOperator::NOT);
         }
-        // clock constraint tipo "x<=5"
+        // clock constraint as "x<=5"
         else if (isClockConstraint(token)) {
             operators.emplace_back(parseClockConstraint(token));
         }
-        // altrimenti è un'atomic proposition
+        // otherwise it is an atomic proposition
         else {
             operators.emplace_back(AtomicProposition(token));
         }
@@ -50,11 +50,11 @@ ClockConstraint Formula::parseClockConstraint(const std::string& token) {
         }
         else if (c == '<' && i + 1 < token.size() && token[i + 1] == '=') {
             op = Comparator::LE;
-            i++; // salta '='
+            i++; // skip '='
         }
         else if (c == '>' && i + 1 < token.size() && token[i + 1] == '=') {
             op = Comparator::GE;
-            i++; // salta '='
+            i++; // skip '='
         }
         else if (c == '<') {
             op = Comparator::LT;
@@ -66,7 +66,7 @@ ClockConstraint Formula::parseClockConstraint(const std::string& token) {
             op = Comparator::EQ;
         }
         else {
-            // assume che sia parte del nome del clock
+            // assume that is part of the name of the clock
             clock.push_back(c);
         }
     }
@@ -83,7 +83,7 @@ bool Formula::Enabled(std::variant<AtomicProposition, LogicalOperator, ClockCons
         ClockConstraint c = std::get<ClockConstraint>(op);
 
         auto itClock = r.floorValues.find(c.clock);
-        if (itClock == r.floorValues.end()) return false; // clock non presente
+        if (itClock == r.floorValues.end()) return false; // clock not found
 
         int f = itClock->second;
         bool isZero = (r.zeroFraction.find(c.clock) != r.zeroFraction.end());
@@ -92,7 +92,7 @@ bool Formula::Enabled(std::variant<AtomicProposition, LogicalOperator, ClockCons
         switch (c.op) {
         case Comparator::LE: return isZero ? (f <= cnst) : (f < cnst);
         case Comparator::LT: return (f < cnst);
-        case Comparator::GE: return isZero ? (f >= cnst) : ((f + 1) > cnst);
+        case Comparator::GE: return (f >= cnst);
         case Comparator::GT: return isZero ? (f > cnst) : (f >= cnst);
         case Comparator::EQ: return (isZero && f == cnst);
         case Comparator::NEQ: return !(isZero && f == cnst);
@@ -106,7 +106,7 @@ bool Formula::Enabled(std::variant<AtomicProposition, LogicalOperator, ClockCons
         return r.location == prop.name;
     }
 
-    // LogicalOperator non valutabile da solo
+    // LogicalOperator not evaluable on its own
     return false;
 }
 
@@ -145,8 +145,15 @@ bool CLTLocFormula::phiEnabled(Region r) {
     auto it = phi.operators.begin();
     if (it == phi.operators.end()) return false;
 
-    // risultato iniziale
-    bool result = phi.Enabled(*it, r);
+    // initial result
+    bool result;
+    if (!std::holds_alternative<LogicalOperator>(*it))
+        result = phi.Enabled(*it, r);
+    else {
+        ++it;
+        result = !phi.Enabled(*it, r);
+    }
+
     ++it;
 
 
@@ -156,17 +163,22 @@ bool CLTLocFormula::phiEnabled(Region r) {
             auto nextIt = std::next(it);
             if (nextIt == phi.operators.end()) break;
 
-            bool val = phi.Enabled(*nextIt, r);
+            bool val;
+            if (!std::holds_alternative<LogicalOperator>(*nextIt))
+                val = phi.Enabled(*nextIt, r);
+            else {
+                it = nextIt;
+                nextIt = std::next(it);
+                result = !phi.Enabled(*nextIt, r);
+            }
 
-            if (op == LogicalOperator::NOT) {
-                val = !val;
-            } else if (op == LogicalOperator::AND) {
+            if (op == LogicalOperator::AND) {
                 result = result && val;
             } else if (op == LogicalOperator::OR) {
                 result = result || val;
             }
 
-            it = nextIt; // salto l’elemento successivo
+            it = nextIt; // next element
         }
         ++it;
     }
@@ -176,12 +188,21 @@ bool CLTLocFormula::phiEnabled(Region r) {
 }
 
 bool CLTLocFormula::psiEnabled(Region r) {
+
     auto it = psi.operators.begin();
     if (it == psi.operators.end()) return false;
 
-    // risultato iniziale
-    bool result = psi.Enabled(*it, r);
+    // initial result
+    bool result;
+    if (!std::holds_alternative<LogicalOperator>(*it))
+        result = psi.Enabled(*it, r);
+    else {
+        ++it;
+        result = !psi.Enabled(*it, r);
+    }
+
     ++it;
+
 
     while (it != psi.operators.end()) {
         if (std::holds_alternative<LogicalOperator>(*it)) {
@@ -189,20 +210,26 @@ bool CLTLocFormula::psiEnabled(Region r) {
             auto nextIt = std::next(it);
             if (nextIt == psi.operators.end()) break;
 
-            bool val = psi.Enabled(*nextIt, r);
+            bool val;
+            if (!std::holds_alternative<LogicalOperator>(*nextIt))
+                val = psi.Enabled(*nextIt, r);
+            else {
+                it = nextIt;
+                nextIt = std::next(it);
+                result = !psi.Enabled(*nextIt, r);
+            }
 
-            if (op == LogicalOperator::NOT) {
-                val = !val;
-            } else if (op == LogicalOperator::AND) {
+            if (op == LogicalOperator::AND) {
                 result = result && val;
             } else if (op == LogicalOperator::OR) {
                 result = result || val;
             }
 
-            it = nextIt; // salto l’elemento successivo
+            it = nextIt; // next element
         }
         ++it;
     }
+
 
     return result;
 }

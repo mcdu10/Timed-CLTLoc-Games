@@ -136,16 +136,16 @@ int main() {
     openRTSGraphSVG((outputDir / "rts_both.dot").string(), (outputDir / "rts_both.svg").string());
 
 
-    // ----------------------------
-    //  Creation of a manual automa
-    // ----------------------------
+    // --------------------------------
+    //  Creation of a manual automaton
+    // --------------------------------
     std::cout << "\n=== Creation manual automaton ===\n";
     std::vector<std::string> locations = {"loc1", "loc2"};
     std::set<std::string> clocks = {"x","y"};
     Guard g1(ClockConstraint("y", Comparator::EQ, 2));
     Guard g2(ClockConstraint("x", Comparator::GE, 3));
 
-    // Vettore di transizioni
+    // Transitions vector
     std::vector<Transition> trans = {
         {"loc1", "a", g1, {"y"}, "loc2"},
         {"loc2", "b", g2, {}, "loc1"}
@@ -155,7 +155,7 @@ int main() {
     TAr manualAutoma(manualLoc, clocks, trans, 5);
     manualAutoma.print();
 
-    // Lambda per manualAutoma
+    // Lambda for manualAutoma
     auto succFuncManual = [&trans](const Region& r) -> RTS {
         return r.successor(trans);
     };
@@ -171,9 +171,9 @@ int main() {
     openRTSGraphSVG((outputDir / "manual.dot").string(), (outputDir / "manual.svg").string());
 
     // ----------------------------
-    //  Parametrical profiling
+    //  Parametric profiling
     // ----------------------------
-    std::cout << "\n=== Parametrical profiling region graph ===\n";
+    std::cout << "\n=== Parametric profiling region graph ===\n";
     std::cout << std::left
               << std::setw(8) << "Clocks"
               << std::setw(10) << "Locations"
@@ -215,7 +215,7 @@ int main() {
     for (int nClock : numClocksList) {
         for (int nLoc : numLocationsList) {
             for (int nTrans : numTransitionsList) {
-                // costruzione automa e inizializzazione region
+                // Construction of the automaton e initialization of the region
                 std::vector<std::string> clocksVec;
                 for (int i=0;i<nClock;++i) clocksVec.push_back("x"+std::to_string(i));
                 std::map<std::string, PLAYER> locationsVec;
@@ -242,14 +242,14 @@ int main() {
                 auto end = std::chrono::high_resolution_clock::now();
                 std::chrono::duration<double> duration_sec = end - start;
 
-                // stampa su console
+                // print on console
                 std::cout << std::left
                           << std::setw(8) << nClock
                           << std::setw(10) << nLoc
                           << std::setw(13) << nTrans
                           << std::setw(15) << std::scientific << std::setprecision(3) << duration_sec.count() << "\n";
 
-                // salva su file
+                // Save on file
                 saveProfilingTable("profiling_forward.csv", nClock, nLoc, nTrans, duration_sec.count());
             }
         }
@@ -365,7 +365,7 @@ int main() {
     //  Testing algorithm1
     // ----------------------------
 
-    // --- 1. Definizione dell'arena (TAr) ---
+    // --- 1. Definition of the arena (TAr) ---
     val["x"] = 0;
     R0 = Region(val, "off", 2);
     loc = {{"on", PLAYER::controller}, {"off", PLAYER::controller}};
@@ -376,22 +376,22 @@ int main() {
     Transition Switch_off = {"on", "switch_off", Guard(clock_constraint), {}, "off"};
     std::vector<Transition> Transitions = {switch_on, switch_off};
 
-    // --- 2. Condizione di vittoria (CLTLocFormula) ---
+    // --- 2. Winning condition (CLTLocFormula) ---
     Formula phi("off or on and x<1");
     Formula psi("on and x=1");
     // CLTLocFormula
     CLTLocFormula winCond(phi, psi);
 
-    // --- 3. Creazione del TCG ---
+    // --- 3. Creation of the TCG ---
     Arena = TAr(loc, R0, Transitions);
     TCG game(Arena, winCond);
 
-    // --- 4. Esecuzione dell'algoritmo 1 ---
+    // --- 4. Execution of Algorithm1 ---
     RTS result = game.algorithm1();
 
     result.printRTS();
 
-    // --- 5. Stampa dei risultati (esempio) ---
+    // --- 5. Printing results (example) ---
     exportRTSGraphSmart(result, Arena, (outputDir / "rts_alg.dot").string(), "algorithm1, example switch on/off,\n winning condition: off or on and x<1 Until on and x=1");
     openRTSGraphSVG((outputDir / "rts_alg.dot").string(), (outputDir / "rts_alg.svg").string());
 

@@ -13,7 +13,7 @@
 
 
 
-// Costruttore
+// Constructor
 Region::Region(const std::map<std::string, double>& valuation, const std::string& loc, int maxConst)
     : location(loc), maxConstant(maxConst)
 {
@@ -32,7 +32,7 @@ Region::Region(const std::map<std::string, double>& valuation, const std::string
             fracPart[clock] = frac;
     }
 
-    // Ordine crescente della parte decimale
+    // Ascending order of the fractional part
     while (!fracPart.empty()) {
         double minFrac = std::min_element(fracPart.begin(), fracPart.end(),
             [](const auto& a, const auto& b) { return a.second < b.second; })->second;
@@ -53,7 +53,7 @@ Region::Region(const std::map<std::string, double>& valuation, const std::string
 Region::Region(const std::string& loc, const std::map<std::string, int>& floor, const std::set<std::string>& zero, const std::vector<std::vector<std::string>>& fo, int max_constant):
  location(loc), floorValues(floor), zeroFraction(zero), fractionalOrder(fo), maxConstant(max_constant){}
 
-Region::Region() : maxConstant(0), location("loc0") {} // costruttore di default
+Region::Region() : maxConstant(0), location("loc0") {} // default constructor
 
 
 
@@ -81,12 +81,12 @@ bool Region::containsRegionEquivalentTo(const std::vector<Region>& vec, const Re
 std::map<std::string, double> Region::getRepresentativeValuation()const{
     std::map<std::string, double> values;
 
-    // Inizializza i valori con la parte intera
+    // Initialize values using their integer part
     for (const auto& [clock, floor] : floorValues) {
         values[clock] = static_cast<double>(floor);
     }
 
-    // Aggiungi frazioni a chi non è in zeroFraction rispettando l'ordine crescente
+    // Add fractions to those not in zeroFraction, preserving ascending order
     double fracValue = 0.1;
     for (const auto& group : fractionalOrder) {
         for (const auto& clk : group) {
@@ -178,12 +178,12 @@ RTS Region::discreteSuccessors(const std::vector<Transition>& transitions) const
     result.regions.push_back(*this);
 
     for (const auto tr : transitions) {
-        // controlla che la transizione parta dalla location corrente e che le
-        // relative guardie siano soddisfatte
+        // Check that the transition starts from the current location
+        // and that the corresponding guards are satisfied
         if (tr.sourceLocation != location) continue;
         if (!tr.isEnabled(floorValues, zeroFraction, fractionalOrder))  continue;
 
-        // azzera i clock giusti
+        // Reset the appropriate clocks
         std::set<std::string> zeronew = zeroFraction;
         std::map<std::string, int> floornew = floorValues;
         std::vector<std::vector<std::string>> fonew = fractionalOrder;
@@ -194,7 +194,7 @@ RTS Region::discreteSuccessors(const std::vector<Transition>& transitions) const
             for (auto& group : fonew) {
                 group.erase(std::remove(group.begin(), group.end(), clk), group.end());
             }
-            // rimuovi i gruppi vuoti
+            // remove empty groups
             fonew.erase(
                 std::remove_if(fonew.begin(), fonew.end(),
                                [](const std::vector<std::string>& g){ return g.empty(); }),
@@ -202,7 +202,7 @@ RTS Region::discreteSuccessors(const std::vector<Transition>& transitions) const
             );
         }
 
-        // crea la region successiva
+        // creation of the next region
         Region next(tr.targetLocation, floornew, zeronew, fonew, maxConstant);
         result.regions.push_back(next);
         result.arches.push_back(RegionTransition(*this, tr.action.action, next));
@@ -217,11 +217,11 @@ RTS Region::discretePredecessors(const std::vector<Transition>& transitions) con
     result.regions.push_back(*this);
 
     for (const auto tr : transitions) {
-        // controlla che la transizione finisca nella location corrente
+        // Check that the transition ends in the current location
         if (tr.targetLocation != location) continue;
 
-        // controlla che i clock azzerati dalla transizione siano nulli
-        // salva la valutazione dei clock azzerati nella mappa reset
+        // Check that the clocks reset by the transition are zero
+        // save the evaluation of the reset clocks in the reset map
         bool flag = false;
         for (const auto clk : tr.resetClocks) {
             if (floorValues.at(clk) != 0 || zeroFraction.find(clk) == zeroFraction.end() ) {
@@ -233,11 +233,11 @@ RTS Region::discretePredecessors(const std::vector<Transition>& transitions) con
 
         std::map<std::string, int> floor = floorValues;
 
-        // Base di partenza
+        // starting base
         std::set<std::string> baseZero = zeroFraction;
         std::vector<std::vector<std::string>> baseFO = fractionalOrder;
 
-        // Regione base
+        // starting region
         auto nuova = Region(tr.sourceLocation, floor, baseZero, baseFO, maxConstant);
         if (tr.isEnabled(floor, baseZero, baseFO)) {
             result.regions.emplace_back(nuova);
@@ -255,7 +255,7 @@ RTS Region::discretePredecessors(const std::vector<Transition>& transitions) con
                 std::set<std::string> zero = baseZero;
                 zero.erase(clk);
 
-                // aggiungi clk come nuovo gruppo in tutte le posizioni
+                // add clk as new group in all the locations
                 for (size_t i = 0; i <= baseFO.size(); ++i) {
                     auto fo = baseFO;
                     fo.insert(fo.begin() + i, { clk });
@@ -264,13 +264,13 @@ RTS Region::discretePredecessors(const std::vector<Transition>& transitions) con
                         result.regions.emplace_back(nuova);
                         result.arches.push_back(RegionTransition(nuova, tr.action.action, *this));
                     }
-                    // Per ogni altro clk1 ≠ clk
+                    // For each clk1 ≠ clk
                     for (const auto& clk1 : tr.resetClocks) {
                         if (clk1 == clk) continue;
                         std::set<std::string> zero2 = zero;
                         zero2.erase(clk1);
 
-                        // Inserisce clk1 in tutte le posizioni
+                        // Insert clk1 in all locations
                         for (size_t j = 0; j <= fo.size(); ++j) {
                             auto fo2 = fo;
                             fo2.insert(fo2.begin() + j, { clk1 });
@@ -289,7 +289,7 @@ RTS Region::discretePredecessors(const std::vector<Transition>& transitions) con
                                 }
                             }
 
-                            // Aggiunge clk1 a gruppi esistenti
+                            // Add clk1 to existing groups
                             if (j < fo.size()) {
                                 auto fo3 = fo;
                                 fo3[j].push_back(clk1);
@@ -312,7 +312,7 @@ RTS Region::discretePredecessors(const std::vector<Transition>& transitions) con
                     }
                 }
 
-                // aggiungi clk a gruppi esistenti
+                // Add clk to existing groups
                 for (size_t i = 0; i < baseFO.size(); ++i) {
                     auto fo = baseFO;
                     fo[i].push_back(clk);
@@ -370,15 +370,15 @@ RTS Region::discretePredecessors(const std::vector<Transition>& transitions) con
                 }
             }
 
-            // Incrementa i floor dei clock azzerati
+            // Increment the floors of the reset clocks
             for (const auto& clk : tr.resetClocks) {
                 floor[clk]++;
             }
-            // Base di partenza
+            // Starting base
             std::set<std::string> baseZero = zeroFraction;
             std::vector<std::vector<std::string>> baseFO = fractionalOrder;
 
-            // Regione base
+            // Starting region
             auto nuova = Region(tr.sourceLocation, floor, baseZero, baseFO, maxConstant);
             if (tr.isEnabled(floor, baseZero, baseFO)) {
                 result.regions.emplace_back(nuova);
@@ -394,8 +394,8 @@ RTS Region::discretePredecessors(const std::vector<Transition>& transitions) con
 RTS Region::successor(const std::vector<Transition>& transitions) const {
     RTS result = discreteSuccessors(transitions);
 
-    auto delay = delaySuccessor();   // delay è un std::optional<Region>
-    if (delay.has_value()) {         // controlla se esiste un successore di delay
+    auto delay = delaySuccessor();   // delay is a std::optional<Region>
+    if (delay.has_value()) {         // check if exists a successor of delay
         result.regions.insert(result.regions.begin(), delay.value());
         result.arches.insert(result.arches.begin(), RegionTransition(*this, "tau", delay.value()));
     }
@@ -406,8 +406,8 @@ RTS Region::successor(const std::vector<Transition>& transitions) const {
 
 RTS Region::predecessor(const std::vector<Transition>& transitions) const {
     RTS result = discretePredecessors(transitions);
-    auto delay = delayPredecessor();   // delay è un std::optional<Region>
-    if (delay.has_value()) {         // controlla se esiste un successore di delay
+    auto delay = delayPredecessor();   // delay is a std::optional<Region>
+    if (delay.has_value()) {         // check if exists a successor of delay
         result.regions.insert(result.regions.begin(), delay.value());
         result.arches.insert(result.arches.begin(), RegionTransition(*this, "tau", delay.value()));
     }
