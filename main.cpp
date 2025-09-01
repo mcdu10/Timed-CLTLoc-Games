@@ -368,7 +368,7 @@ int main() {
     // --- 1. Definition of the arena (TAr) ---
     val["x"] = 0;
     R0 = Region(val, "off", 2);
-    loc = {{"on", PLAYER::controller}, {"off", PLAYER::controller}};
+    loc = {{"on", PLAYER::controller}, {"off", PLAYER::environment}};
 
     Guard guard;
     Transition Switch_on = {"off", "switch_on", g, {"x"}, "on"};
@@ -385,6 +385,11 @@ int main() {
     // --- 3. Creation of the TCG ---
     Arena = TAr(loc, R0, Transitions);
     TCG game(Arena, winCond);
+    RTS regtr = Arena.BFS(neighborsFunc);
+    std::vector<RegionTransition> prova = game.Deltac(regtr.regions);
+    for (auto p: prova) {
+        std::cout << "source " << p.source.location << " transition " << p.transition << " target " << p.target.location << "\n";
+    }
 
     // --- 4. Execution of Algorithm1 ---
     RTS result = game.algorithm1();

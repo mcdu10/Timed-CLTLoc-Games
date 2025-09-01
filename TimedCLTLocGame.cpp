@@ -21,9 +21,11 @@ std::vector<RegionTransition> TCG::Omega(std::vector<Region> regions) {
     std::vector<RegionTransition> arch = Ra.arches;
     std::map<RegionTransition, bool> found;
     for (auto tr : arch) {
-        found[tr] = false;
-        if (find(regions.begin(), regions.end(), tr.target) != regions.end()) {
-            found[tr] = true;
+        if (tr.transition != "tau") {
+            found[tr] = false;
+            if (find(regions.begin(), regions.end(), tr.target) == regions.end()) {
+                found[tr] = true;
+            }
         }
     }
     for (auto act : found) {
@@ -49,7 +51,7 @@ std::vector<RegionTransition> TCG::Deltac(std::vector<Region> regions) {
     RTS Ra = A.BFS(neighborsFunc);
     std::vector<RegionTransition> arch = Ra.arches;
     for (auto tr : arch) {
-        if (tr.transition == "tau")
+        if (tr.transition == "tau" && (A.locations[tr.source.location] == PLAYER::controller) && (find(regions.begin(), regions.end(), tr.target) != regions.end()))
             result.push_back(tr);
     }
     return result;
@@ -73,7 +75,7 @@ std::vector<RegionTransition> TCG::Deltae(std::vector<Region> regions) {
     for (auto tr : arch) {
         if (tr.transition == "tau") {
             found[tr] = false;
-            if (find(regions.begin(), regions.end(), tr.target) != regions.end()) {
+            if (find(regions.begin(), regions.end(), tr.target) == regions.end()) {
                 found[tr] = true;
             }
         }
