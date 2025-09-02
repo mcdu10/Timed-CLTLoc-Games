@@ -97,7 +97,7 @@ bool TAr::reachable(const Region& r) {
 void TAr::print() {
   std::cout << "Initial region: " << std::endl;
   R.print();
-  std::cout << "Transitions: " << std::endl;
+  std::cout << "\nTransitions: " << std::endl;
   for (const auto& t : transitions) {
     t.print();
   }

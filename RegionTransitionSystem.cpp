@@ -16,7 +16,6 @@ void RTS::printRTS() {
     std::cout << "=== Regions ===\n";
     std::map<std::string, int> idx;
     for (size_t i = 0; i < regions.size(); ++i) {
-        std::cout << "\n";
         std::cout << "R" << i << ": " << "\n";
         regions[i].print();
         idx[regions[i].ID()]=i;
