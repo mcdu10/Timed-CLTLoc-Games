@@ -30,38 +30,38 @@ public:
     Region(const std::string& loc, const std::map<std::string, int>& floor, const std::set<std::string>& zero, const std::vector<std::vector<std::string>>& fo, int max_constant);
     Region();
 
-    // Verifica se due regioni sono equivalenti
+    // Check whether two regions are equivalent
     bool isEquivalentTo(const Region& other) const;
 
-    // Verifica se in un vettore di regioni ce n'è una equivalente
+    // Check whether an equivalent region exists in a vector of regions
     static bool containsRegionEquivalentTo(const std::vector<Region>& vec, const Region& target);
 
-    // Restituisce un rappresentante della regione
+    // Return a representative of the region
     std::map<std::string, double> getRepresentativeValuation() const;
 
-    // Restituisce le regioni raggiungibili facendo passare il tempo
+    // Return the regions reachable by letting time elapse
     std::optional<Region> delaySuccessor() const;
 
-    // Restituisce le regioni raggiungibili tramite le transizioni (in input)
+    // Return the regions reachable via the (input) transitions
     RTS discreteSuccessors(const std::vector<Transition>& transitions) const;
 
-    // Restituisce tutte le regioni raggiungibili
+    // Return all reachable regions
     RTS successor(const std::vector<Transition>& transitions) const;
 
-    // Restituisce le regioni dalle quali si può raggiungere la corrente facendo passare il tempo
+    // Return the regions from which the current one can be reached by letting time elapse
     std::optional<Region> delayPredecessor() const;
 
-    // Restituisce le regioni dalle quali si può raggiungere la corrente tramite le transizioni (in input)
+    // Return the regions from which the current one can be reached through (input) transitions
     RTS discretePredecessors(const std::vector<Transition>& transitions) const;
 
-    // Restituisce tutte le regioni dalle quali si può raggiungere la corrente (facendo passare il tempo o con transizioni)
+    // Return all regions from which the current one can be reached (either by letting time elapse or via transitions)
     RTS predecessor(const std::vector<Transition>& transitions) const;
 
 
-    // Stampa la regione
+    // Print the region
     void print() const;
 
-    // ID per identificare univocamente una regione
+    // ID to uniquely identify a region
     std::string ID() const;
 
     std::string clockID() const;
