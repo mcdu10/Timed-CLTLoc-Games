@@ -409,7 +409,7 @@ RTS Region::predecessor(const std::vector<Transition>& transitions) const {
     auto delay = delayPredecessor();   // delay is a std::optional<Region>
     if (delay.has_value()) {         // check if exists a successor of delay
         result.regions.insert(result.regions.begin(), delay.value());
-        result.arches.insert(result.arches.begin(), RegionTransition(*this, "tau", delay.value()));
+        result.arches.insert(result.arches.begin(), RegionTransition(delay.value(), "tau", *this));
     }
     return result;
 }

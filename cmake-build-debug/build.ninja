@@ -49,68 +49,75 @@ cmake_ninja_workdir = /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/
 
 build cmake_object_order_depends_target_Timed_CLTLoc_Games: phony || .
 
-build CMakeFiles/Timed_CLTLoc_Games.dir/Region.cpp.o: CXX_COMPILER__Timed_CLTLoc_Games_unscanned_Debug /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/Region.cpp || cmake_object_order_depends_target_Timed_CLTLoc_Games
-  DEP_FILE = CMakeFiles/Timed_CLTLoc_Games.dir/Region.cpp.o.d
+build CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/Region.cpp.o: CXX_COMPILER__Timed_CLTLoc_Games_unscanned_Debug /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedGames/source/Region.cpp || cmake_object_order_depends_target_Timed_CLTLoc_Games
+  DEP_FILE = CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/Region.cpp.o.d
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk -fdiagnostics-color=always
-  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/.
+  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedGames/include -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/Utility/include
   OBJECT_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
-  OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
+  OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source
 
-build CMakeFiles/Timed_CLTLoc_Games.dir/Transition.cpp.o: CXX_COMPILER__Timed_CLTLoc_Games_unscanned_Debug /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/Transition.cpp || cmake_object_order_depends_target_Timed_CLTLoc_Games
-  DEP_FILE = CMakeFiles/Timed_CLTLoc_Games.dir/Transition.cpp.o.d
+build CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/Transition.cpp.o: CXX_COMPILER__Timed_CLTLoc_Games_unscanned_Debug /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedGames/source/Transition.cpp || cmake_object_order_depends_target_Timed_CLTLoc_Games
+  DEP_FILE = CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/Transition.cpp.o.d
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk -fdiagnostics-color=always
-  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/.
+  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedGames/include -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/Utility/include
   OBJECT_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
-  OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
+  OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source
 
-build CMakeFiles/Timed_CLTLoc_Games.dir/Guard.cpp.o: CXX_COMPILER__Timed_CLTLoc_Games_unscanned_Debug /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/Guard.cpp || cmake_object_order_depends_target_Timed_CLTLoc_Games
-  DEP_FILE = CMakeFiles/Timed_CLTLoc_Games.dir/Guard.cpp.o.d
+build CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/Guard.cpp.o: CXX_COMPILER__Timed_CLTLoc_Games_unscanned_Debug /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedGames/source/Guard.cpp || cmake_object_order_depends_target_Timed_CLTLoc_Games
+  DEP_FILE = CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/Guard.cpp.o.d
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk -fdiagnostics-color=always
-  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/.
+  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedGames/include -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/Utility/include
   OBJECT_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
-  OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
+  OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source
 
-build CMakeFiles/Timed_CLTLoc_Games.dir/TimedArena.cpp.o: CXX_COMPILER__Timed_CLTLoc_Games_unscanned_Debug /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedArena.cpp || cmake_object_order_depends_target_Timed_CLTLoc_Games
-  DEP_FILE = CMakeFiles/Timed_CLTLoc_Games.dir/TimedArena.cpp.o.d
+build CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/TimedArena.cpp.o: CXX_COMPILER__Timed_CLTLoc_Games_unscanned_Debug /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedGames/source/TimedArena.cpp || cmake_object_order_depends_target_Timed_CLTLoc_Games
+  DEP_FILE = CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/TimedArena.cpp.o.d
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk -fdiagnostics-color=always
-  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/.
+  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedGames/include -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/Utility/include
   OBJECT_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
-  OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
+  OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source
 
 build CMakeFiles/Timed_CLTLoc_Games.dir/main.cpp.o: CXX_COMPILER__Timed_CLTLoc_Games_unscanned_Debug /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/main.cpp || cmake_object_order_depends_target_Timed_CLTLoc_Games
   DEP_FILE = CMakeFiles/Timed_CLTLoc_Games.dir/main.cpp.o.d
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk -fdiagnostics-color=always
-  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/.
+  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedGames/include -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/Utility/include
   OBJECT_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
   OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
 
-build CMakeFiles/Timed_CLTLoc_Games.dir/CLTLocFormula.cpp.o: CXX_COMPILER__Timed_CLTLoc_Games_unscanned_Debug /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/CLTLocFormula.cpp || cmake_object_order_depends_target_Timed_CLTLoc_Games
-  DEP_FILE = CMakeFiles/Timed_CLTLoc_Games.dir/CLTLocFormula.cpp.o.d
+build CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/CLTLocFormula.cpp.o: CXX_COMPILER__Timed_CLTLoc_Games_unscanned_Debug /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedGames/source/CLTLocFormula.cpp || cmake_object_order_depends_target_Timed_CLTLoc_Games
+  DEP_FILE = CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/CLTLocFormula.cpp.o.d
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk -fdiagnostics-color=always
-  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/.
+  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedGames/include -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/Utility/include
   OBJECT_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
-  OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
+  OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source
 
-build CMakeFiles/Timed_CLTLoc_Games.dir/RegionTransitionSystem.cpp.o: CXX_COMPILER__Timed_CLTLoc_Games_unscanned_Debug /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/RegionTransitionSystem.cpp || cmake_object_order_depends_target_Timed_CLTLoc_Games
-  DEP_FILE = CMakeFiles/Timed_CLTLoc_Games.dir/RegionTransitionSystem.cpp.o.d
+build CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/RegionTransitionSystem.cpp.o: CXX_COMPILER__Timed_CLTLoc_Games_unscanned_Debug /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedGames/source/RegionTransitionSystem.cpp || cmake_object_order_depends_target_Timed_CLTLoc_Games
+  DEP_FILE = CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/RegionTransitionSystem.cpp.o.d
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk -fdiagnostics-color=always
-  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/.
+  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedGames/include -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/Utility/include
   OBJECT_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
-  OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
+  OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source
 
-build CMakeFiles/Timed_CLTLoc_Games.dir/image.cpp.o: CXX_COMPILER__Timed_CLTLoc_Games_unscanned_Debug /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/image.cpp || cmake_object_order_depends_target_Timed_CLTLoc_Games
-  DEP_FILE = CMakeFiles/Timed_CLTLoc_Games.dir/image.cpp.o.d
+build CMakeFiles/Timed_CLTLoc_Games.dir/Utility/source/image.cpp.o: CXX_COMPILER__Timed_CLTLoc_Games_unscanned_Debug /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/Utility/source/image.cpp || cmake_object_order_depends_target_Timed_CLTLoc_Games
+  DEP_FILE = CMakeFiles/Timed_CLTLoc_Games.dir/Utility/source/image.cpp.o.d
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk -fdiagnostics-color=always
-  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/.
+  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedGames/include -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/Utility/include
   OBJECT_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
-  OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
+  OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir/Utility/source
 
-build CMakeFiles/Timed_CLTLoc_Games.dir/TimedCLTLocGame.cpp.o: CXX_COMPILER__Timed_CLTLoc_Games_unscanned_Debug /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedCLTLocGame.cpp || cmake_object_order_depends_target_Timed_CLTLoc_Games
-  DEP_FILE = CMakeFiles/Timed_CLTLoc_Games.dir/TimedCLTLocGame.cpp.o.d
+build CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/TimedCLTLocGame.cpp.o: CXX_COMPILER__Timed_CLTLoc_Games_unscanned_Debug /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedGames/source/TimedCLTLocGame.cpp || cmake_object_order_depends_target_Timed_CLTLoc_Games
+  DEP_FILE = CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/TimedCLTLocGame.cpp.o.d
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk -fdiagnostics-color=always
-  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/.
+  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedGames/include -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/Utility/include
   OBJECT_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
-  OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
+  OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source
+
+build CMakeFiles/Timed_CLTLoc_Games.dir/Utility/source/Validation.cpp.o: CXX_COMPILER__Timed_CLTLoc_Games_unscanned_Debug /Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/Utility/source/Validation.cpp || cmake_object_order_depends_target_Timed_CLTLoc_Games
+  DEP_FILE = CMakeFiles/Timed_CLTLoc_Games.dir/Utility/source/Validation.cpp.o.d
+  FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk -fdiagnostics-color=always
+  INCLUDES = -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedGames/include -I/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/Utility/include
+  OBJECT_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
+  OBJECT_FILE_DIR = CMakeFiles/Timed_CLTLoc_Games.dir/Utility/source
 
 
 # =============================================================================
@@ -120,7 +127,7 @@ build CMakeFiles/Timed_CLTLoc_Games.dir/TimedCLTLocGame.cpp.o: CXX_COMPILER__Tim
 #############################################
 # Link the executable Timed_CLTLoc_Games
 
-build Timed_CLTLoc_Games: CXX_EXECUTABLE_LINKER__Timed_CLTLoc_Games_Debug CMakeFiles/Timed_CLTLoc_Games.dir/Region.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/Transition.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/Guard.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/TimedArena.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/main.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/CLTLocFormula.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/RegionTransitionSystem.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/image.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/TimedCLTLocGame.cpp.o
+build Timed_CLTLoc_Games: CXX_EXECUTABLE_LINKER__Timed_CLTLoc_Games_Debug CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/Region.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/Transition.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/Guard.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/TimedArena.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/main.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/CLTLocFormula.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/RegionTransitionSystem.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/Utility/source/image.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/TimedGames/source/TimedCLTLocGame.cpp.o CMakeFiles/Timed_CLTLoc_Games.dir/Utility/source/Validation.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk
   OBJECT_DIR = CMakeFiles/Timed_CLTLoc_Games.dir
   POST_BUILD = :

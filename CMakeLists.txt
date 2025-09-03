@@ -3,24 +3,28 @@ project(Timed_CLTLoc_Games)
 
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories(.)
-
+include_directories(
+        ${PROJECT_SOURCE_DIR}/TimedGames/include
+        ${PROJECT_SOURCE_DIR}/Utility/include
+)
 add_executable(Timed_CLTLoc_Games
-        Region.cpp
-    Region.h
-        Transition.cpp
-        Transition.h
-        Guard.cpp
-        Guard.h
-        TimedArena.cpp
-        TimedArena.h
+        TimedGames/source/Region.cpp
+        TimedGames/include/Region.h
+        TimedGames/source/Transition.cpp
+        TimedGames/include/Transition.h
+        TimedGames/source/Guard.cpp
+        TimedGames/include/Guard.h
+        TimedGames/source/TimedArena.cpp
+        TimedGames/include/TimedArena.h
         main.cpp
-        CLTLocFormula.cpp
-        CLTLocFormula.h
-        RegionTransitionSystem.cpp
-        RegionTransitionSystem.h
-        image.cpp
-        image.h
-        TimedCLTLocGame.cpp
-        TimedCLTLocGame.h
+        TimedGames/source/CLTLocFormula.cpp
+        TimedGames/include/CLTLocFormula.h
+        TimedGames/source/RegionTransitionSystem.cpp
+        TimedGames/include/RegionTransitionSystem.h
+        Utility/source/image.cpp
+        Utility/include/image.h
+        TimedGames/source/TimedCLTLocGame.cpp
+        TimedGames/include/TimedCLTLocGame.h
+        Utility/source/Validation.cpp
+        Utility/include/Validation.h
 )

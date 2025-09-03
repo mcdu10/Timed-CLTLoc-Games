@@ -25,7 +25,7 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 8,
+				"line" : 10,
 				"parent" : 0
 			},
 			{
@@ -49,7 +49,11 @@
 			[
 				{
 					"backtrace" : 2,
-					"path" : "/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/."
+					"path" : "/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/TimedGames/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/Utility/include"
 				}
 			],
 			"language" : "CXX",
@@ -71,7 +75,8 @@
 				9,
 				11,
 				13,
-				15
+				15,
+				17
 			]
 		}
 	],
@@ -112,7 +117,8 @@
 				9,
 				11,
 				13,
-				15
+				15,
+				17
 			]
 		},
 		{
@@ -126,7 +132,8 @@
 				10,
 				12,
 				14,
-				16
+				16,
+				18
 			]
 		}
 	],
@@ -135,45 +142,45 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "Region.cpp",
+			"path" : "TimedGames/source/Region.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "Region.h",
+			"path" : "TimedGames/include/Region.h",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "Transition.cpp",
+			"path" : "TimedGames/source/Transition.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "Transition.h",
+			"path" : "TimedGames/include/Transition.h",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "Guard.cpp",
+			"path" : "TimedGames/source/Guard.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "Guard.h",
+			"path" : "TimedGames/include/Guard.h",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "TimedArena.cpp",
+			"path" : "TimedGames/source/TimedArena.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "TimedArena.h",
+			"path" : "TimedGames/include/TimedArena.h",
 			"sourceGroupIndex" : 1
 		},
 		{
@@ -185,45 +192,56 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "CLTLocFormula.cpp",
+			"path" : "TimedGames/source/CLTLocFormula.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "CLTLocFormula.h",
+			"path" : "TimedGames/include/CLTLocFormula.h",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "RegionTransitionSystem.cpp",
+			"path" : "TimedGames/source/RegionTransitionSystem.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "RegionTransitionSystem.h",
+			"path" : "TimedGames/include/RegionTransitionSystem.h",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "image.cpp",
+			"path" : "Utility/source/image.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "image.h",
+			"path" : "Utility/include/image.h",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "TimedCLTLocGame.cpp",
+			"path" : "TimedGames/source/TimedCLTLocGame.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "TimedCLTLocGame.h",
+			"path" : "TimedGames/include/TimedCLTLocGame.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Utility/source/Validation.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Utility/include/Validation.h",
 			"sourceGroupIndex" : 1
 		}
 	],
