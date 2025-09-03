@@ -1,3 +1,0 @@
-/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/cmake-build-debug/CMakeFiles/Timed_CLTLoc_Games.dir
-/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/mariacarmendurbano/Desktop/PACS/Timed-CLTLoc-Games/cmake-build-debug/CMakeFiles/rebuild_cache.dir
