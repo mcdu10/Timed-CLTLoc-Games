@@ -1,0 +1,39 @@
+# IDE specific
+.idea/
+.vscode/
+
+# Build directories
+cmake-build-debug/
+cmake-build-release/
+build/
+out/
+output/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# CMake generated files
+CMakeFiles/
+CMakeCache.txt
+*.cmake
+Makefile
+*.ninja
+*.ninja_deps
+*.ninja_log
+
+# Binaries and libraries
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+*.o
+*.obj
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*.bak
