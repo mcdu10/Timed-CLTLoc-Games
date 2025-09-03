@@ -65,6 +65,8 @@ public:
     std::string ID() const;
 
     std::string clockID() const;
+    RTS discretePredecessorsLight(const std::vector<Transition>& transitions) const;
+    RTS predecessorLight(const std::vector<Transition>& transitions) const;
 
     bool operator==(const Region& other) const {
         return this->ID() == other.ID();

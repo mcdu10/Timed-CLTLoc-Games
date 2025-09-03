@@ -20,6 +20,11 @@ std::string buildClockExpression( const std::map<std::string,int>& floorValues,
     for (const auto& [clk, fl] : floorValues) {
         byFloor[fl].push_back(clk);
     }
+    auto max = std::max_element(
+                   floorValues.begin(), floorValues.end(),
+                   [](const auto& a, const auto& b) {
+                       return a.second < b.second;
+                   })->second;
 
     std::map<std::string, std::pair<int,int>> fracPos;
     for (auto it = byFloor.begin(); it != byFloor.end(); ++it) {
@@ -60,6 +65,14 @@ std::string buildClockExpression( const std::map<std::string,int>& floorValues,
             }
 
         }
+        int lastFloor = byFloor.rbegin()->first;  // il valore massimo dei floor
+        for (const auto& clk : byFloor.rbegin()->second) {
+            if (lastFloor == max && zeroFraction.find(clk) == zeroFraction.end()) {
+                // Caso speciale: clock al massimo, non in zeroFraction
+                return clk + ">" + std::to_string(max);
+            }
+        }
+
 
         auto succ = std::next(it);
         if (succ != byFloor.end()) {

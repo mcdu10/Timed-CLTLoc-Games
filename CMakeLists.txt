@@ -27,4 +27,6 @@ add_executable(Timed_CLTLoc_Games
         TimedGames/include/TimedCLTLocGame.h
         Utility/source/Validation.cpp
         Utility/include/Validation.h
+        Utility/source/TCGexample.cpp
+        Utility/include/TCGexample.h
 )

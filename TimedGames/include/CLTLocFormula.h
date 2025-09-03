@@ -23,6 +23,7 @@ struct AtomicProposition {
 
 enum class LogicalOperator { AND, OR, NOT };
 
+
 struct Formula {
     std::vector<std::variant<AtomicProposition, LogicalOperator, ClockConstraint>> operators;
 

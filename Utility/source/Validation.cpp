@@ -322,7 +322,7 @@ std::locale::global(std::locale("C"));
                 std::vector<Transition> transVec;
                 for (int i=0;i<nTrans;++i) {
                     std::string src = "loc" + std::to_string(i % nLoc);
-                    std::string dst = "loc" + std::to_string(i % nLoc);
+                    std::string dst = "loc" + std::to_string((i+1) % nLoc);
                     transVec.push_back({src,"t"+std::to_string(i),Guard(),{},dst});
                 }
 

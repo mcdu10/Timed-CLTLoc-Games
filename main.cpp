@@ -11,6 +11,7 @@
 #include "Utility/include/image.h"
 #include "TimedGames/include/TimedArena.h"
 #include "Utility/include/Validation.h"
+#include "Utility/include/TCGexample.h"
 
 
 
@@ -18,7 +19,12 @@ namespace fs = std::filesystem;
 
 
 int main() {
-    // runValidation();
+    // run Validation tests for the library and BFS algorithm
+    runValidation();
+
+    // run example for algorithm1
+    runVal();
+
 
     // CREATE REGION
     std::map<std::string, double> clockValues;
@@ -83,6 +89,8 @@ int main() {
     // export
     exportRTSGraphSmart(graph, arena, "output/rts_forward.dot", "Forward exploration");
     openRTSGraphSVG("output/rts_forward.dot", "output/rts_forward.svg");
+
+
 
     return 0;
 }

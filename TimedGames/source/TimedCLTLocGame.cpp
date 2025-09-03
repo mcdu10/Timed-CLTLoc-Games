@@ -134,6 +134,7 @@ RTS TCG::algorithm1() {
             G.push_back(r);
         }
     }
+    std::cout << S.size() << " e " << G.size() << std::endl;
     std::vector<Region> barG;
     while(barG != G) {
 
@@ -147,6 +148,7 @@ RTS TCG::algorithm1() {
                 G.push_back(r);
             }
         }
+        std::cout << G.size() << " e " << barG.size() << std::endl;
     }
     if (find(G.begin(), G.end(), A.R) != G.end()) {
         result.regions = G;

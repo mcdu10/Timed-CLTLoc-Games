@@ -105,12 +105,14 @@ std::optional<Region> Region::delaySuccessor() const {
     std::vector<std::vector<std::string>> fo;
     std::set<std::string> zero;
 
-    if (!(std::max_element(
+    auto max = std::max_element(
                    floorValues.begin(), floorValues.end(),
                    [](const auto& a, const auto& b) {
                        return a.second < b.second;
-                   })->second < maxConstant))
+                   })->second;
+    if (!(max <= maxConstant))
         return std::nullopt;
+
 
     if (!zeroFraction.empty()) {
         fo = fractionalOrder;
@@ -160,8 +162,14 @@ std::optional<Region> Region::delayPredecessor() const {
         std::vector<std::string> lower = std::vector<std::string>(zeroFraction.begin(), zeroFraction.end());
         fo.push_back(lower);
         for (auto it : zeroFraction) {
+            if (floor[it] == 0) {
+                return std::nullopt;
+            }
+        }
+        for (auto it : zeroFraction) {
             floor[it] = floor[it] - 1;
         }
+
         return Region(location, floor, zero, fo, maxConstant);
     }
 
@@ -441,9 +449,10 @@ std::string Region::ID() const {
     std::ostringstream oss;
     oss << location << "|";
 
-    // floorValues
+    // floorValues (normalizzati)
     for (const auto& [clk, val] : floorValues) {
-        oss << clk << ":" << val << ",";
+        int normalized = (val > maxConstant) ? maxConstant : val;
+        oss << clk << ":" << normalized << ",";
     }
     oss << "|";
 
@@ -467,6 +476,7 @@ std::string Region::ID() const {
 
     return oss.str();
 }
+
 
 std::string Region::clockID() const {
     std::ostringstream oss;

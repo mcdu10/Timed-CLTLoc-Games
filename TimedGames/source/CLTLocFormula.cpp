@@ -89,6 +89,7 @@ bool Formula::Enabled(std::variant<AtomicProposition, LogicalOperator, ClockCons
         bool isZero = (r.zeroFraction.find(c.clock) != r.zeroFraction.end());
         int cnst = c.constant;
 
+        if (cnst > r.maxConstant) return true;
         switch (c.op) {
         case Comparator::LE: return isZero ? (f <= cnst) : (f < cnst);
         case Comparator::LT: return (f < cnst);
@@ -169,7 +170,7 @@ bool CLTLocFormula::phiEnabled(Region r) {
             else {
                 it = nextIt;
                 nextIt = std::next(it);
-                result = !phi.Enabled(*nextIt, r);
+                val = !phi.Enabled(*nextIt, r);
             }
 
             if (op == LogicalOperator::AND) {
@@ -216,7 +217,7 @@ bool CLTLocFormula::psiEnabled(Region r) {
             else {
                 it = nextIt;
                 nextIt = std::next(it);
-                result = !psi.Enabled(*nextIt, r);
+                val = !psi.Enabled(*nextIt, r);
             }
 
             if (op == LogicalOperator::AND) {
