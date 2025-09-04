@@ -4,6 +4,7 @@
 
 #include "Guard.h"
 #include <cmath>
+#include <iostream>
 
 
 ClockConstraint::ClockConstraint(const std::string str, Comparator gt, int i)
@@ -72,4 +73,18 @@ bool Guard::isSatisfiedBy(const std::map<std::string, int>& floor,
     return true;
 }
 
+void Guard::print() const {
+    for (auto c: constraints) {
+        std::cout << c.clock << " ";
+        switch (c.op) {
+        case Comparator::LE: std::cout <<  "<=";
+        case Comparator::LT: std::cout <<  "<";
+        case Comparator::GE: std::cout <<  ">=";
+        case Comparator::GT: std::cout <<  ">";
+        case Comparator::EQ: std::cout <<  "=";
+        case Comparator::NEQ: std::cout <<  "!=";
+        }
+        std::cout << " " << c.constant << std::endl;
+    }
+}
 

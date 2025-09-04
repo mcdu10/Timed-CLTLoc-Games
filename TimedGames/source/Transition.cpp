@@ -18,6 +18,10 @@ void Transition::print() const{
     std::cout << "Transition: "
                << sourceLocation << " --["
                << action.action;
+    if (!guard.constraints.empty()) {
+        std::cout << ", ";
+        guard.print();
+    }
     if (!resetClocks.empty()) {
         std::cout << ", reset {";
         for (auto it = resetClocks.begin(); it != resetClocks.end(); ++it) {

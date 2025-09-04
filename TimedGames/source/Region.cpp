@@ -110,7 +110,7 @@ std::optional<Region> Region::delaySuccessor() const {
                    [](const auto& a, const auto& b) {
                        return a.second < b.second;
                    })->second;
-    if (!(max <= maxConstant))
+    if (!(max < maxConstant))
         return std::nullopt;
 
 
