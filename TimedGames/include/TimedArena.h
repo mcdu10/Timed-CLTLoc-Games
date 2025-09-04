@@ -7,7 +7,6 @@
 
 #include "Guard.h"
 #include "Transition.h"
-#include "CLTLocFormula.h"
 #include "Region.h"
 #include <string>
 #include <vector>
@@ -22,7 +21,6 @@
 
 
 using ClockValuation = std::map<std::string, double>;
-using Condition = CLTLocFormula;
 enum class PLAYER {controller, environment};
 
 

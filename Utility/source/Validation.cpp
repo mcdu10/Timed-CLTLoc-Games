@@ -15,7 +15,6 @@
 #include "image.h"
 #include "Region.h"
 #include "TimedArena.h"
-#include "TimedCLTLocGame.h"
 
 namespace fs = std::filesystem;
 
@@ -362,44 +361,5 @@ std::locale::global(std::locale("C"));
 
     std::cout << "\n[Every graph created and profiling tables are in the output folder/]\n";
 
-
-    // ----------------------------
-    //  Testing algorithm1
-    // ----------------------------
-
-    // --- 1. Definition of the arena (TAr) ---
-    val["x"] = 0;
-    R0 = Region(val, "off", 2);
-    loc = {{"on", PLAYER::controller}, {"off", PLAYER::environment}};
-
-    Guard guard;
-    Transition Switch_on = {"off", "switch_on", g, {"x"}, "on"};
-    ClockConstraint Clock_constraint = {"x", Comparator::EQ, 2};
-    Transition Switch_off = {"on", "switch_off", Guard(clock_constraint), {}, "off"};
-    std::vector<Transition> Transitions = {switch_on, switch_off};
-
-    // --- 2. Winning condition (CLTLocFormula) ---
-    Formula phi("off or on and x<1");
-    Formula psi("on and x=1");
-    // CLTLocFormula
-    CLTLocFormula winCond(phi, psi);
-
-    // --- 3. Creation of the TCG ---
-    Arena = TAr(loc, R0, Transitions);
-    TCG game(Arena, winCond);
-    RTS regtr = Arena.BFS(neighborsFunc);
-    std::vector<RegionTransition> prova = game.Deltac(regtr.regions);
-    for (auto p: prova) {
-        std::cout << "source " << p.source.location << " transition " << p.transition << " target " << p.target.location << "\n";
-    }
-
-    // --- 4. Execution of Algorithm1 ---
-    RTS result = game.algorithm1();
-
-    result.printRTS();
-
-    // --- 5. Printing results (example) ---
-    exportRTSGraphSmart(result, Arena, (outputDir / "rts_alg.dot").string(), "algorithm1, example switch on/off,\n winning condition: off or on and x<1 Until on and x=1");
-    openRTSGraphSVG((outputDir / "rts_alg.dot").string(), (outputDir / "rts_alg.svg").string());
 
 };

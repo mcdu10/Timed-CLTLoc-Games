@@ -18,7 +18,7 @@ namespace fs = std::filesystem;
 
 
 int main() {
-    // runValidation();
+    runValidation();
 
     // CREATE REGION
     std::map<std::string, double> clockValues;

@@ -7,7 +7,8 @@ include_directories(
         ${PROJECT_SOURCE_DIR}/TimedGames/include
         ${PROJECT_SOURCE_DIR}/Utility/include
 )
-add_executable(Timed_CLTLoc_Games
+
+add_executable(TimedGames
         TimedGames/source/Region.cpp
         TimedGames/include/Region.h
         TimedGames/source/Transition.cpp
@@ -17,14 +18,10 @@ add_executable(Timed_CLTLoc_Games
         TimedGames/source/TimedArena.cpp
         TimedGames/include/TimedArena.h
         main.cpp
-        TimedGames/source/CLTLocFormula.cpp
-        TimedGames/include/CLTLocFormula.h
         TimedGames/source/RegionTransitionSystem.cpp
         TimedGames/include/RegionTransitionSystem.h
         Utility/source/image.cpp
         Utility/include/image.h
-        TimedGames/source/TimedCLTLocGame.cpp
-        TimedGames/include/TimedCLTLocGame.h
         Utility/source/Validation.cpp
         Utility/include/Validation.h
 )

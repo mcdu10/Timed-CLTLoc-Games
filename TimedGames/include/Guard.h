@@ -36,5 +36,6 @@ public:
 
     bool isSatisfiedBy(const std::map<std::string, double>& valuation) const;
     bool isSatisfiedBy( const std::map<std::string, int>& floor, const std::set<std::string>& zero, const std::vector<std::vector<std::string>>& fo) const;
+    void print() const;
 };
 #endif //GUARD_H
