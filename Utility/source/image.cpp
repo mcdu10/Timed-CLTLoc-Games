@@ -136,6 +136,21 @@ void exportRTSGraphSmart(
     ssNote << "\\nTransitions:\\n";
     for (const auto& t : arena.transitions) {
         ssNote << t.sourceLocation << " --[" << t.action.action;
+        if (!t.guard.constraints.empty()) {
+            ssNote << ", ";
+            for (auto c: t.guard.constraints) {
+                ssNote << c.clock << " ";
+                switch (c.op) {
+                case Comparator::LE: ssNote <<  "<="; break;
+                case Comparator::LT: ssNote <<  "<"; break;
+                case Comparator::GE: ssNote <<  ">="; break;
+                case Comparator::GT: ssNote <<  ">"; break;
+                case Comparator::EQ: ssNote <<  "="; break;
+                case Comparator::NEQ: ssNote <<  "!="; break;
+                }
+                ssNote << " " << c.constant;
+            }
+        }
         if (!t.resetClocks.empty()) {
             ssNote << ", reset {";
             for (auto it = t.resetClocks.begin(); it != t.resetClocks.end(); ++it) {

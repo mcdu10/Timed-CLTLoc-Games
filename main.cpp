@@ -20,10 +20,10 @@ namespace fs = std::filesystem;
 
 int main() {
     // run Validation tests for the library and BFS algorithm
-    runValidation();
+    // runValidation();
 
     // run example for algorithm1
-    runVal();
+    // runVal();
 
 
     // CREATE REGION
