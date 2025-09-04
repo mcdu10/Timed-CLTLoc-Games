@@ -77,13 +77,13 @@ void Guard::print() const {
     for (auto c : constraints) {
         std::cout << c.clock << " ";
         switch (c.op) {
-            case Comparator::LE: std::cout << "<=";
-            case Comparator::LT: std::cout << "<";
-            case Comparator::GE: std::cout << ">=";
-            case Comparator::GT: std::cout << ">";
-            case Comparator::EQ: std::cout << "=";
-            case Comparator::NEQ: std::cout << "!=";
+            case Comparator::LE: std::cout << "<="; break;
+            case Comparator::LT: std::cout << "<"; break;
+            case Comparator::GE: std::cout << ">="; break;
+            case Comparator::GT: std::cout << ">"; break;
+            case Comparator::EQ: std::cout << "="; break;
+            case Comparator::NEQ: std::cout << "!="; break;
         }
-        std::cout << " " << c.constant << std::endl;
+        std::cout << " " << c.constant;
     }
 }
